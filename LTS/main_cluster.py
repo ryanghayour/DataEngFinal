@@ -101,9 +101,6 @@ def main():
     else:
         raise ValueError("Currently only text model is supported")
 
-    labeler = Labeling(label_model=labeling)
-    labeler.set_model(hf_model_name=args.hf_model)
-
     if sampling == "thompson":
         ## thompson sampler
         sampler = ThompsonSampler(n_cluster)
@@ -111,7 +108,6 @@ def main():
         sampler = RandomSampler(n_cluster)
     else:
         raise ValueError("Choose one of thompson or random")
-
 
     labeler = Labeling(label_model=labeling)
     labeler.set_model(hf_model_name=args.hf_model)
