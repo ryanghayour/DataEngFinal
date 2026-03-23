@@ -11,6 +11,7 @@ import json
 nltk.download('punkt')
 
 import os
+from tqdm import tqdm
 from LDA import LDATopicModel
 
 def main():
@@ -120,7 +121,8 @@ def main():
         if labeling != "file":
             df = labeler.generate_inference_data(sample_data, 'clean_title')
             print("df for inference created")
-            df["answer"] = df.apply(lambda x: labeler.predict_animal_product(x), axis=1)
+            tqdm.pandas(desc="Labeling samples")
+            df["answer"] = df.progress_apply(lambda x: labeler.predict_animal_product(x), axis=1)
             df["answer"] = df["answer"].str.strip()
             df["label"] = np.where(df["answer"] == 'relevant animal', 1, 0)
             if os.path.exists(f"{filename}_data_labeled.csv"):
