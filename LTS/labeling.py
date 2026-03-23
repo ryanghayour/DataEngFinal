@@ -125,12 +125,12 @@ class Labeling:
             if self.tokenizer.pad_token is None:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
                 self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
-            hf_device = "cuda:1" if torch.cuda.device_count() > 1 else "cuda:0"
             self.model = AutoModelForCausalLM.from_pretrained(
                 model_name,
                 torch_dtype=torch.float16,
-            ).to(hf_device)
-            self.hf_device = hf_device
+                device_map="auto",
+            )
+            self.hf_device = self.device
             print("HuggingFace model loaded")
         elif self.label_model == "file":
             self.model = None
@@ -216,7 +216,7 @@ class Labeling:
 
     def get_huggingface_label(self, row):
         prompt = row["text"]
-        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.hf_device)
+        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
         inputs_length = len(inputs["input_ids"][0])
         with torch.inference_mode():
             outputs = self.model.generate(

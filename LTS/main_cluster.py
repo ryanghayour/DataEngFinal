@@ -186,7 +186,7 @@ def main():
 
         # Move labeling model back to GPU
         if labeling == "huggingface":
-            labeler.model.to(labeler.hf_device)
+            labeler.model.to(labeler.device)
 
         reward_difference = results[f"eval_{metric}"] - baseline
         if reward_difference > 0:
