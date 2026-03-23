@@ -230,7 +230,7 @@ class MyTrainer(Trainer):
         # forward pass
         outputs = model(**inputs)
         logits = outputs.get("logits")
-        loss_fct = nn.CrossEntropyLoss(weight=torch.tensor([0.2, 0.8], device=model.device))
+        loss_fct = nn.CrossEntropyLoss(weight=torch.tensor([0.2, 0.8], device=labels.device))
         loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
         return (loss, outputs) if return_outputs else loss
 
