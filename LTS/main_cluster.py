@@ -11,6 +11,7 @@ import json
 nltk.download('punkt')
 
 import os
+import torch
 from tqdm import tqdm
 from LDA import LDATopicModel
 
@@ -180,7 +181,17 @@ def main():
             still_unbalenced = True
         print(f"Unbalanced? {still_unbalenced}")
 
+        # Move labeling model to CPU to free GPU memory for BERT training
+        if labeling == "huggingface":
+            labeler.model.cpu()
+            torch.cuda.empty_cache()
+
         results, huggingface_trainer = trainer.train_data(df, still_unbalenced)
+
+        # Move labeling model back to GPU
+        if labeling == "huggingface":
+            labeler.model.to(labeler.hf_device)
+
         reward_difference = results[f"eval_{metric}"] - baseline
         if reward_difference > 0:
             print(f"Model improved with {reward_difference}")

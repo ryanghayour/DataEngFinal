@@ -115,7 +115,7 @@ class BertFineTuner:
             logging_steps=10,
             push_to_hub=False,
             logging_dir="./logs",
-            load_best_model_at_end=True
+            load_best_model_at_end=True,
         )
         if still_unbalenced:
             print(f"using modified loss function")
