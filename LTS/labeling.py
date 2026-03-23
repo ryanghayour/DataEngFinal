@@ -6,6 +6,7 @@ import os
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
+    pipeline,
 )
 from openai import OpenAI
 import pandas as pd
@@ -19,8 +20,10 @@ class Labeling:
     def generate_prompt(self, title):
         if self.label_model == "llama":
             return self.generate_prompt_llama(title)
-        elif self.label_model=="gpt":
+        elif self.label_model == "gpt":
             return self.generate_prompt_gpt(title)
+        elif self.label_model == "huggingface":
+            return self.generate_prompt_gpt(title)  # reuse same prompt text
         else:
             return None
 
@@ -106,7 +109,7 @@ class Labeling:
                              6. Advertisement:
                              '''
 
-    def set_model(self):
+    def set_model(self, hf_model_name=None):
         if self.label_model == "llama":
             checkpoint = "llama/"
             self.model = AutoModelForCausalLM.from_pretrained(checkpoint).to(self.device)
@@ -115,7 +118,17 @@ class Labeling:
             print("model Loaded")
         elif self.label_model == "gpt":
             self.model = OpenAI(api_key="YOUR_OPENAI_API_KEY")
-        elif self.label_model =="file":
+        elif self.label_model == "huggingface":
+            model_name = hf_model_name or "mistralai/Mistral-7B-Instruct-v0.3"
+            print(f"Loading HuggingFace model: {model_name}")
+            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_name,
+                torch_dtype=torch.float16,
+                device_map="auto",
+            )
+            print("HuggingFace model loaded")
+        elif self.label_model == "file":
             self.model = None
 
 
@@ -128,6 +141,8 @@ class Labeling:
             return self.get_llama_label(row)
         elif self.label_model == "gpt":
             return self.get_gpt_label(row)
+        elif self.label_model == "huggingface":
+            return self.get_huggingface_label(row)
         elif self.label_model == "file":
             return self.get_file_label(row)
         else:
@@ -194,6 +209,23 @@ class Labeling:
                     answer = 'not a relevant animal'
         return answer
 
+
+    def get_huggingface_label(self, row):
+        prompt = row["text"]
+        messages = [{"role": "user", "content": prompt}]
+        input_ids = self.tokenizer.apply_chat_template(
+            messages, return_tensors="pt", add_generation_prompt=True
+        ).to(self.model.device)
+        with torch.inference_mode():
+            outputs = self.model.generate(
+                input_ids,
+                max_new_tokens=50,
+                temperature=0.1,
+                do_sample=True,
+                pad_token_id=self.tokenizer.eos_token_id,
+            )
+        result = self.tokenizer.decode(outputs[0][input_ids.shape[1]:], skip_special_tokens=True)
+        return result.strip()
 
     def get_file_label(self, row):
         raise NotImplementedError()

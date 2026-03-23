@@ -41,6 +41,9 @@ def main():
                         help="path to validation")
     parser.add_argument('-cluster_size', type=str, required=False,
                         help="path to validation")
+    parser.add_argument('-hf_model', type=str, required=False,
+                        default="mistralai/Mistral-7B-Instruct-v0.3",
+                        help="HuggingFace model name (used when -labeling huggingface)")
 
 
     args = parser.parse_args()
@@ -97,7 +100,7 @@ def main():
         raise ValueError("Currently only text model is supported")
 
     labeler = Labeling(label_model=labeling)
-    labeler.set_model()
+    labeler.set_model(hf_model_name=args.hf_model)
 
     if sampling == "thompson":
         ## thompson sampler
@@ -109,7 +112,7 @@ def main():
 
 
     labeler = Labeling(label_model=labeling)
-    labeler.set_model()
+    labeler.set_model(hf_model_name=args.hf_model)
 
     for i in range(10):
         sample_data, chosen_bandit = sampler.get_sample_data(data, sample_size, filter_label, trainer)
