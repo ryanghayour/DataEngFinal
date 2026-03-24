@@ -226,7 +226,8 @@ class Labeling:
                 pad_token_id=self.tokenizer.pad_token_id,
             )
         result = self.tokenizer.decode(outputs[0][inputs_length:], skip_special_tokens=True)
-        return result.strip()
+        first_line = result.strip().split('\n')[0].strip()
+        return first_line
 
     def get_file_label(self, row):
         raise NotImplementedError()

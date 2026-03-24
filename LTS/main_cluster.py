@@ -121,7 +121,10 @@ def main():
             tqdm.pandas(desc="Labeling samples")
             df["answer"] = df.progress_apply(lambda x: labeler.predict_animal_product(x), axis=1)
             df["answer"] = df["answer"].str.strip()
-            df["label"] = np.where(df["answer"] == 'relevant animal', 1, 0)
+            df["label"] = np.where(
+                df["answer"].str.lower().str.contains('relevant animal') & ~df["answer"].str.lower().str.contains('not a relevant animal'),
+                1, 0
+            )
             if os.path.exists(f"{filename}_data_labeled.csv"):
                 train_data = pd.read_csv(f"{filename}_data_labeled.csv")
                 train_data = pd.concat([train_data, df])
