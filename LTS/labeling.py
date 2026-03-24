@@ -23,7 +23,7 @@ class Labeling:
         elif self.label_model == "gpt":
             return self.generate_prompt_gpt(title)
         elif self.label_model == "huggingface":
-            return self.generate_prompt_gpt(title)  # reuse same prompt text
+            return self.generate_prompt_huggingface(title)
         else:
             return None
 
@@ -67,6 +67,44 @@ class Labeling:
                              Label: not a relevant animal
 
                              This is a product from a shark, but is not an animal product because it's only one tooth and it's a fossil.
+
+                             6. Advertisement: {title}
+                             Label:
+
+                             '''
+
+    def generate_prompt_huggingface(self, title):
+        return f'''You are labeling tool to create labels for a classification task.
+                             I will provide text data from an advertisement of a product.
+                             The product should be classified in two labels:
+                             Label 1: relevant animal - if the product is a real animal product such as: animal skin, leather, hide, pelt, fur, skull, skeleton, bone, taxidermy, shell, specimen, or any part derived from a real animal.
+                             Label 2: not a relevant animal - if the product is NOT a real animal product. This includes: stamps, coins, toys, clothing with animal prints/images, figurines, artwork, fossils, synthetic/faux/vegan products, or any item that merely depicts an animal.
+                             Return only one of the two labels: relevant animal or not a relevant animal, no explanation is necessary.
+                             Exemple:
+                             1. Advertisement: PELGIO Genuine Water Monitor Lizard Belly Skin Leather Hide Pelt Sky Blue
+                             Label: relevant animal
+
+                             The product in example 1 is real animal skin leather. It is a real animal product.
+
+                             2. Advertisement: DDR, MAMMAL, Rhinoceros unicornis, brown 1975, 20pf
+                             Label: not a relevant animal
+
+                             The product in example 2 is a stamp depicting an animal. It is not a real animal product.
+
+                             3. Advertisement: Real Python skull 12.5 cm, Snake skull, snake taxidermy, snake skeleton anatomy
+                             Label: relevant animal
+
+                             The product in example 3 is a real animal skull and taxidermy specimen.
+
+                             4. Advertisement: 2020 TIGER PANTHERA Tigris - Laos - Premium Investment Coin - 1oz
+                             Label: not a relevant animal
+
+                             The product in example 4 is a coin with an animal image, not a real animal product.
+
+                             5. Advertisement: 1 pcs Real Crocodile Skull Taxidermy Animal skull specimen 20-24 inches
+                             Label: relevant animal
+
+                             The product in example 5 is a real crocodile skull specimen.
 
                              6. Advertisement: {title}
                              Label:
