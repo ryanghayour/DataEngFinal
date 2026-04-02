@@ -14,6 +14,7 @@ import os
 import torch
 from tqdm import tqdm
 from LDA import LDATopicModel
+from bertopic_cluster import BERTopicModel
 
 def main():
     parser = argparse.ArgumentParser(prog="Sampling fine-tuning", description='Perform Sampling and fine tune')
@@ -46,6 +47,10 @@ def main():
     parser.add_argument('-hf_model', type=str, required=False,
                         default="mistralai/Mistral-7B-Instruct-v0.3",
                         help="HuggingFace model name (used when -labeling huggingface)")
+    parser.add_argument('-clustering', type=str, required=False,
+                        default="lda",
+                        choices=["lda", "bertopic"],
+                        help="Clustering method: lda or bertopic")
 
 
     args = parser.parse_args()
@@ -76,22 +81,31 @@ def main():
     os.makedirs("log", exist_ok=True)
     os.makedirs("results", exist_ok=True)
 
+    clustering = args.clustering
+
+    cache_suffix = "_lda" if clustering == "lda" else "_bertopic"
+    cache_file = filename + cache_suffix + ".csv"
+
     try:
-        data = pd.read_csv(filename+"_lda.csv")
+        data = pd.read_csv(cache_file)
         n_cluster = data['label_cluster'].value_counts().count()
-        print("using data saved on disk")
-        # print(sample.head(1))
+        print(f"Using cached {clustering} data from disk")
     except Exception:
-        print("Creating LDA")
-        data = pd.read_csv(filename+".csv")
+        print(f"Creating clusters with {clustering}")
+        data = pd.read_csv(filename + ".csv")
         data = preprocessor.preprocess_df(data)
-        lda_topic_model = LDATopicModel(num_topics=cluster_size)
-        topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+
+        if clustering == "bertopic":
+            bertopic_model = BERTopicModel(nr_topics=int(cluster_size) if cluster_size else 10)
+            topics = bertopic_model.fit_transform(data['clean_title'].to_list())
+        else:
+            lda_topic_model = LDATopicModel(num_topics=int(cluster_size) if cluster_size else 10)
+            topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+
         data["label_cluster"] = topics
         n_cluster = data['label_cluster'].value_counts().count()
-        print(n_cluster)
-        data.to_csv(filename + "_lda.csv", index=False)
-        print("LDA created")
+        print(f"{clustering} created {n_cluster} clusters")
+        data.to_csv(cache_file, index=False)
 
 
     baseline = baseline

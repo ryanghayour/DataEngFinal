@@ -31,4 +31,5 @@ python main_cluster.py \
     -model "text" \
     -baseline 0.5 \
     -metric "f1" \
-    -cluster_size 10
+    -cluster_size 10 \
+    -clustering "bertopic"
