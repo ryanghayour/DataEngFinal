@@ -6,14 +6,13 @@ from random_sampling import RandomSampler
 from preprocessing import TextPreprocessor
 from fine_tune import BertFineTuner
 from thompson_sampling import ThompsonSampler
-import nltk
 import json
-nltk.download('punkt')
+
 
 import os
 import torch
 from tqdm import tqdm
-from LDA import LDATopicModel
+from kmeans_embeddings import KMeansTextClusterer
 
 def main():
     parser = argparse.ArgumentParser(prog="Sampling fine-tuning", description='Perform Sampling and fine tune')
@@ -82,16 +81,16 @@ def main():
         print("using data saved on disk")
         # print(sample.head(1))
     except Exception:
-        print("Creating LDA")
+        print("Creating K-means clusters")
         data = pd.read_csv(filename+".csv")
         data = preprocessor.preprocess_df(data)
-        lda_topic_model = LDATopicModel(num_topics=cluster_size)
-        topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+        clusterer = KMeansTextClusterer(num_topics=cluster_size)
+        topics = clusterer.fit_transform(data['clean_title'].to_list())
         data["label_cluster"] = topics
         n_cluster = data['label_cluster'].value_counts().count()
         print(n_cluster)
-        data.to_csv(filename + "_lda.csv", index=False)
-        print("LDA created")
+        data.to_csv(filename + "_kmeans.csv", index=False)
+        print("K-means clusters created")
 
 
     baseline = baseline
