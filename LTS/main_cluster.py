@@ -8,13 +8,25 @@ from fine_tune import BertFineTuner
 from thompson_sampling import ThompsonSampler
 import nltk
 import json
-nltk.download('punkt')
+nltk.data.path.insert(0, '/gpfs/scratch/np3106/nltk_data')
+nltk.download('punkt', download_dir='/gpfs/scratch/np3106/nltk_data')
 
 import os
 import torch
 from tqdm import tqdm
 from LDA import LDATopicModel
 from bertopic_cluster import BERTopicModel
+
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
 
 def main():
     parser = argparse.ArgumentParser(prog="Sampling fine-tuning", description='Perform Sampling and fine tune')
@@ -24,9 +36,9 @@ def main():
                         help="Name of sampling method")
     parser.add_argument('-sample_size', type=int, required=False,
                         help="sample size")
-    parser.add_argument('-filter_label', type=bool, required=False,
+    parser.add_argument('-filter_label', type=str2bool, default=False, required=False,
                         help="use model clf results to filter data")
-    parser.add_argument('-balance', type=bool, required=False,
+    parser.add_argument('-balance', type=str2bool, default=False, required=False,
                         help="balance positive and neg sample")
     parser.add_argument('-model_finetune', type=str, required=False,
                         help="model base for fine tune")
