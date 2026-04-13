@@ -8,14 +8,16 @@ from fine_tune import BertFineTuner
 from thompson_sampling import ThompsonSampler
 import nltk
 import json
-nltk.data.path.insert(0, '/gpfs/scratch/np3106/nltk_data')
-nltk.download('punkt', download_dir='/gpfs/scratch/np3106/nltk_data')
+
+nltk.download('punkt')
 
 import os
 import torch
 from tqdm import tqdm
 from LDA import LDATopicModel
-from bertopic_cluster import BERTopicModel
+# from bertopic_cluster import BERTopicModel
+# from top2vec import Top2Vec
+from top2vec_cluster import Top2VecModel
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -59,10 +61,14 @@ def main():
     parser.add_argument('-hf_model', type=str, required=False,
                         default="mistralai/Mistral-7B-Instruct-v0.3",
                         help="HuggingFace model name (used when -labeling huggingface)")
+    # parser.add_argument('-clustering', type=str, required=False,
+    #                     default="lda",
+    #                     choices=["lda", "bertopic"],
+    #                     help="Clustering method: lda or bertopic")
     parser.add_argument('-clustering', type=str, required=False,
                         default="lda",
-                        choices=["lda", "bertopic"],
-                        help="Clustering method: lda or bertopic")
+                        choices=["lda", "bertopic", "top2vec"],
+                        help="Clustering method: lda, bertopic, or top2vec")
 
 
     args = parser.parse_args()
@@ -93,9 +99,20 @@ def main():
     os.makedirs("log", exist_ok=True)
     os.makedirs("results", exist_ok=True)
 
+    # clustering = args.clustering
+
+    # cache_suffix = "_lda" if clustering == "lda" else "_bertopic"
+    # cache_file = filename + cache_suffix + ".csv"
+
     clustering = args.clustering
 
-    cache_suffix = "_lda" if clustering == "lda" else "_bertopic"
+    if clustering == "lda":
+        cache_suffix = "_lda"
+    elif clustering == "bertopic":
+        cache_suffix = "_bertopic"
+    else:
+        cache_suffix = "_top2vec"
+        
     cache_file = filename + cache_suffix + ".csv"
 
     try:
@@ -107,12 +124,24 @@ def main():
         data = pd.read_csv(filename + ".csv")
         data = preprocessor.preprocess_df(data)
 
+        # if clustering == "bertopic":
+        #     bertopic_model = BERTopicModel(nr_topics=int(cluster_size) if cluster_size else 10)
+        #     topics = bertopic_model.fit_transform(data['clean_title'].to_list())
+        # else:
+        #     lda_topic_model = LDATopicModel(num_topics=int(cluster_size) if cluster_size else 10)
+        #     topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+
         if clustering == "bertopic":
             bertopic_model = BERTopicModel(nr_topics=int(cluster_size) if cluster_size else 10)
             topics = bertopic_model.fit_transform(data['clean_title'].to_list())
+        elif clustering == "top2vec":
+            print("Training Top2Vec model...")
+            top2vec_model = Top2VecModel(speed="learn", workers=8)
+            topics = top2vec_model.fit_transform(data['clean_title'].to_list())
         else:
             lda_topic_model = LDATopicModel(num_topics=int(cluster_size) if cluster_size else 10)
             topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+
 
         data["label_cluster"] = topics
         n_cluster = data['label_cluster'].value_counts().count()

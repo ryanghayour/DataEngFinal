@@ -1,0 +1,1797 @@
+Using cached top2vec data from disk
+Loading HuggingFace model: Qwen/Qwen2.5-3B-Instruct
+HuggingFace model loaded
+Chosen bandit 1158
+length of bendit 26
+df for inference created
+label
+0    26
+Name: count, dtype: int64
+adding positive data: label
+0    26
+1     4
+Name: count, dtype: int64
+Balanced data: label
+0    8
+1    4
+Name: count, dtype: int64
+using model bert-base-uncased
+Starting with metric f1 baseline 0.5
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.5943165421485901, 'eval_accuracy': 0.434, 'eval_precision': 0.18960320641282563, 'eval_recall': 0.434, 'eval_f1': 0.26391073919107394, 'eval_runtime': 4.5381, 'eval_samples_per_second': 110.179, 'eval_steps_per_second': 3.526, 'epoch': 1.0}
+{'eval_loss': 0.5700916647911072, 'eval_accuracy': 0.52, 'eval_precision': 0.7361393805309734, 'eval_recall': 0.52, 'eval_f1': 0.4336390773405699, 'eval_runtime': 4.7056, 'eval_samples_per_second': 106.256, 'eval_steps_per_second': 3.4, 'epoch': 2.0}
+{'eval_loss': 0.5493103265762329, 'eval_accuracy': 0.59, 'eval_precision': 0.7220928559021316, 'eval_recall': 0.59, 'eval_f1': 0.553257867809793, 'eval_runtime': 4.5458, 'eval_samples_per_second': 109.992, 'eval_steps_per_second': 3.52, 'epoch': 3.0}
+{'eval_loss': 0.5347021222114563, 'eval_accuracy': 0.618, 'eval_precision': 0.7347014795474326, 'eval_recall': 0.618, 'eval_f1': 0.5914526415873294, 'eval_runtime': 4.57, 'eval_samples_per_second': 109.41, 'eval_steps_per_second': 3.501, 'epoch': 4.0}
+{'eval_loss': 0.5307124257087708, 'eval_accuracy': 0.622, 'eval_precision': 0.7299887429643527, 'eval_recall': 0.622, 'eval_f1': 0.5983058823529411, 'eval_runtime': 4.5691, 'eval_samples_per_second': 109.432, 'eval_steps_per_second': 3.502, 'epoch': 5.0}
+{'eval_loss': 0.5325090289115906, 'eval_accuracy': 0.624, 'eval_precision': 0.7246743951612903, 'eval_recall': 0.624, 'eval_f1': 0.6024565522943366, 'eval_runtime': 4.5805, 'eval_samples_per_second': 109.157, 'eval_steps_per_second': 3.493, 'epoch': 6.0}
+{'eval_loss': 0.5327805280685425, 'eval_accuracy': 0.624, 'eval_precision': 0.7101532548642806, 'eval_recall': 0.624, 'eval_f1': 0.6062187192118227, 'eval_runtime': 4.5846, 'eval_samples_per_second': 109.06, 'eval_steps_per_second': 3.49, 'epoch': 7.0}
+{'train_runtime': 44.6732, 'train_samples_per_second': 5.372, 'train_steps_per_second': 0.448, 'train_loss': 0.38341409819466726, 'epoch': 7.0}
+{'eval_loss': 0.5325090289115906, 'eval_accuracy': 0.624, 'eval_precision': 0.7246743951612903, 'eval_recall': 0.624, 'eval_f1': 0.6024565522943366, 'eval_runtime': 4.5941, 'eval_samples_per_second': 108.834, 'eval_steps_per_second': 3.483, 'epoch': 7.0}
+Model improved with 0.10245655229433659
+Chosen bandit 921
+length of bendit 45
+inference results
+predicted_label
+0    23
+1    22
+Name: count, dtype: int64
+inference results
+predicted_label
+0    23
+1    22
+Name: count, dtype: int64
+df for inference created
+label
+0    44
+1     1
+Name: count, dtype: int64
+Balanced data: label
+0    2
+1    1
+Name: count, dtype: int64
+using model models/fine_tunned_0_bandit_1158
+previous model f1 metric baseline of: 0.6024565522943366
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.6180166006088257, 'eval_accuracy': 0.602, 'eval_precision': 0.6070087048525946, 'eval_recall': 0.602, 'eval_f1': 0.6034482875346059, 'eval_runtime': 4.5576, 'eval_samples_per_second': 109.707, 'eval_steps_per_second': 3.511, 'epoch': 1.0}
+{'eval_loss': 0.6545910239219666, 'eval_accuracy': 0.634, 'eval_precision': 0.6315862068965518, 'eval_recall': 0.634, 'eval_f1': 0.632220742618734, 'eval_runtime': 4.5689, 'eval_samples_per_second': 109.436, 'eval_steps_per_second': 3.502, 'epoch': 2.0}
+{'eval_loss': 0.6343626976013184, 'eval_accuracy': 0.618, 'eval_precision': 0.6178028691928156, 'eval_recall': 0.618, 'eval_f1': 0.617898972637575, 'eval_runtime': 4.574, 'eval_samples_per_second': 109.314, 'eval_steps_per_second': 3.498, 'epoch': 3.0}
+{'eval_loss': 0.6524031758308411, 'eval_accuracy': 0.632, 'eval_precision': 0.6299805825242718, 'eval_recall': 0.632, 'eval_f1': 0.6306257861635219, 'eval_runtime': 4.5791, 'eval_samples_per_second': 109.191, 'eval_steps_per_second': 3.494, 'epoch': 4.0}
+{'eval_loss': 0.6695895791053772, 'eval_accuracy': 0.632, 'eval_precision': 0.6289442772091779, 'eval_recall': 0.632, 'eval_f1': 0.6294552160168598, 'eval_runtime': 4.5897, 'eval_samples_per_second': 108.94, 'eval_steps_per_second': 3.486, 'epoch': 5.0}
+{'eval_loss': 0.7074358463287354, 'eval_accuracy': 0.624, 'eval_precision': 0.6191708333333333, 'eval_recall': 0.624, 'eval_f1': 0.6179173608908329, 'eval_runtime': 4.7607, 'eval_samples_per_second': 105.027, 'eval_steps_per_second': 3.361, 'epoch': 6.0}
+{'eval_loss': 0.7636908888816833, 'eval_accuracy': 0.62, 'eval_precision': 0.6150963547713025, 'eval_recall': 0.62, 'eval_f1': 0.6039270163798465, 'eval_runtime': 4.7573, 'eval_samples_per_second': 105.101, 'eval_steps_per_second': 3.363, 'epoch': 7.0}
+{'train_runtime': 42.422, 'train_samples_per_second': 1.414, 'train_steps_per_second': 0.471, 'train_loss': 0.44003874914986746, 'epoch': 7.0}
+{'eval_loss': 0.6545910239219666, 'eval_accuracy': 0.634, 'eval_precision': 0.6315862068965518, 'eval_recall': 0.634, 'eval_f1': 0.632220742618734, 'eval_runtime': 4.7619, 'eval_samples_per_second': 105.0, 'eval_steps_per_second': 3.36, 'epoch': 7.0}
+Model improved with 0.029764190324397366
+Chosen bandit 1149
+length of bendit 27
+inference results
+predicted_label
+0    16
+1    11
+Name: count, dtype: int64
+inference results
+predicted_label
+0    16
+1    11
+Name: count, dtype: int64
+df for inference created
+label
+0    26
+1     1
+Name: count, dtype: int64
+Balanced data: label
+0    2
+1    1
+Name: count, dtype: int64
+using model models/fine_tunned_1_bandit_921
+previous model f1 metric baseline of: 0.632220742618734
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.5999331474304199, 'eval_accuracy': 0.61, 'eval_precision': 0.6256372161974896, 'eval_recall': 0.61, 'eval_f1': 0.6109099204014743, 'eval_runtime': 4.7268, 'eval_samples_per_second': 105.78, 'eval_steps_per_second': 3.385, 'epoch': 1.0}
+{'eval_loss': 0.525375247001648, 'eval_accuracy': 0.6, 'eval_precision': 0.74105, 'eval_recall': 0.6, 'eval_f1': 0.5636117182602213, 'eval_runtime': 4.7237, 'eval_samples_per_second': 105.849, 'eval_steps_per_second': 3.387, 'epoch': 2.0}
+{'eval_loss': 0.5189045071601868, 'eval_accuracy': 0.536, 'eval_precision': 0.7752177777777778, 'eval_recall': 0.536, 'eval_f1': 0.45445436837169034, 'eval_runtime': 4.7311, 'eval_samples_per_second': 105.683, 'eval_steps_per_second': 3.382, 'epoch': 3.0}
+{'eval_loss': 0.5197643041610718, 'eval_accuracy': 0.472, 'eval_precision': 0.7611950207468879, 'eval_recall': 0.472, 'eval_f1': 0.3392457142857143, 'eval_runtime': 4.7394, 'eval_samples_per_second': 105.499, 'eval_steps_per_second': 3.376, 'epoch': 4.0}
+{'eval_loss': 0.5176793336868286, 'eval_accuracy': 0.464, 'eval_precision': 0.7595720164609054, 'eval_recall': 0.464, 'eval_f1': 0.32337407862407863, 'eval_runtime': 4.7573, 'eval_samples_per_second': 105.101, 'eval_steps_per_second': 3.363, 'epoch': 5.0}
+{'eval_loss': 0.5193118453025818, 'eval_accuracy': 0.466, 'eval_precision': 0.7599752577319587, 'eval_recall': 0.466, 'eval_f1': 0.32737652485020907, 'eval_runtime': 4.7601, 'eval_samples_per_second': 105.039, 'eval_steps_per_second': 3.361, 'epoch': 6.0}
+{'eval_loss': 0.5219610929489136, 'eval_accuracy': 0.464, 'eval_precision': 0.7595720164609054, 'eval_recall': 0.464, 'eval_f1': 0.32337407862407863, 'eval_runtime': 4.7645, 'eval_samples_per_second': 104.944, 'eval_steps_per_second': 3.358, 'epoch': 7.0}
+{'train_runtime': 43.5633, 'train_samples_per_second': 1.377, 'train_steps_per_second': 0.459, 'train_loss': 0.7282073838370187, 'epoch': 7.0}
+{'eval_loss': 0.5999331474304199, 'eval_accuracy': 0.61, 'eval_precision': 0.6256372161974896, 'eval_recall': 0.61, 'eval_f1': 0.6109099204014743, 'eval_runtime': 4.7723, 'eval_samples_per_second': 104.771, 'eval_steps_per_second': 3.353, 'epoch': 7.0}
+Chosen bandit 1027
+length of bendit 37
+inference results
+predicted_label
+1    37
+Name: count, dtype: int64
+inference results
+predicted_label
+1    37
+Name: count, dtype: int64
+df for inference created
+label
+0    37
+Name: count, dtype: int64
+adding positive data: label
+0    37
+1     1
+Name: count, dtype: int64
+Balanced data: label
+0    2
+1    1
+Name: count, dtype: int64
+using model models/fine_tunned_1_bandit_921
+previous model f1 metric baseline of: 0.632220742618734
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.5468988418579102, 'eval_accuracy': 0.658, 'eval_precision': 0.7161736176906989, 'eval_recall': 0.658, 'eval_f1': 0.6503519319544909, 'eval_runtime': 4.7264, 'eval_samples_per_second': 105.789, 'eval_steps_per_second': 3.385, 'epoch': 1.0}
+{'eval_loss': 0.5149589776992798, 'eval_accuracy': 0.626, 'eval_precision': 0.7357306074917513, 'eval_recall': 0.626, 'eval_f1': 0.6025566137566137, 'eval_runtime': 4.7408, 'eval_samples_per_second': 105.467, 'eval_steps_per_second': 3.375, 'epoch': 2.0}
+{'eval_loss': 0.5050206780433655, 'eval_accuracy': 0.59, 'eval_precision': 0.7179540730234036, 'eval_recall': 0.59, 'eval_f1': 0.5543549783549784, 'eval_runtime': 4.7502, 'eval_samples_per_second': 105.259, 'eval_steps_per_second': 3.368, 'epoch': 3.0}
+{'eval_loss': 0.5031223297119141, 'eval_accuracy': 0.584, 'eval_precision': 0.71413, 'eval_recall': 0.584, 'eval_f1': 0.5461561869906302, 'eval_runtime': 4.7616, 'eval_samples_per_second': 105.007, 'eval_steps_per_second': 3.36, 'epoch': 4.0}
+{'eval_loss': 0.5026504397392273, 'eval_accuracy': 0.58, 'eval_precision': 0.7115219819270993, 'eval_recall': 0.58, 'eval_f1': 0.5406383701188455, 'eval_runtime': 4.7552, 'eval_samples_per_second': 105.149, 'eval_steps_per_second': 3.365, 'epoch': 5.0}
+{'eval_loss': 0.5024443864822388, 'eval_accuracy': 0.576, 'eval_precision': 0.7132216748768474, 'eval_recall': 0.576, 'eval_f1': 0.5338717948717949, 'eval_runtime': 4.7754, 'eval_samples_per_second': 104.704, 'eval_steps_per_second': 3.351, 'epoch': 6.0}
+{'eval_loss': 0.5057576894760132, 'eval_accuracy': 0.59, 'eval_precision': 0.7179540730234036, 'eval_recall': 0.59, 'eval_f1': 0.5543549783549784, 'eval_runtime': 4.7712, 'eval_samples_per_second': 104.795, 'eval_steps_per_second': 3.353, 'epoch': 7.0}
+{'train_runtime': 43.6238, 'train_samples_per_second': 1.375, 'train_steps_per_second': 0.458, 'train_loss': 0.6281647000994001, 'epoch': 7.0}
+{'eval_loss': 0.5468988418579102, 'eval_accuracy': 0.658, 'eval_precision': 0.7161736176906989, 'eval_recall': 0.658, 'eval_f1': 0.6503519319544909, 'eval_runtime': 4.7782, 'eval_samples_per_second': 104.641, 'eval_steps_per_second': 3.349, 'epoch': 7.0}
+Model improved with 0.01813118933575697
+Chosen bandit 1027
+length of bendit 0
+Chosen bandit 399
+length of bendit 107
+inference results
+predicted_label
+1    70
+0    37
+Name: count, dtype: int64
+inference results
+predicted_label
+1    70
+0    37
+Name: count, dtype: int64
+df for inference created
+label
+0    107
+Name: count, dtype: int64
+using model models/fine_tunned_3_bandit_1027
+previous model f1 metric baseline of: 0.6503519319544909
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 1.5216584205627441, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.7267, 'eval_samples_per_second': 105.782, 'eval_steps_per_second': 3.385, 'epoch': 1.0}
+{'eval_loss': 1.7945067882537842, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.7414, 'eval_samples_per_second': 105.455, 'eval_steps_per_second': 3.375, 'epoch': 2.0}
+{'loss': 0.2941, 'grad_norm': 2.564617156982422, 'learning_rate': 1.775e-05, 'epoch': 2.5}
+{'eval_loss': 2.3031086921691895, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.7511, 'eval_samples_per_second': 105.238, 'eval_steps_per_second': 3.368, 'epoch': 3.0}
+{'eval_loss': 2.6549735069274902, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.6051, 'eval_samples_per_second': 108.575, 'eval_steps_per_second': 3.474, 'epoch': 4.0}
+{'loss': 0.0488, 'grad_norm': 0.9439989328384399, 'learning_rate': 1.525e-05, 'epoch': 5.0}
+{'eval_loss': 2.939479112625122, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.6079, 'eval_samples_per_second': 108.51, 'eval_steps_per_second': 3.472, 'epoch': 5.0}
+{'eval_loss': 3.241687536239624, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.6125, 'eval_samples_per_second': 108.402, 'eval_steps_per_second': 3.469, 'epoch': 6.0}
+{'eval_loss': 3.4519312381744385, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.6179, 'eval_samples_per_second': 108.274, 'eval_steps_per_second': 3.465, 'epoch': 7.0}
+{'train_runtime': 62.9399, 'train_samples_per_second': 34.001, 'train_steps_per_second': 1.271, 'train_loss': 0.1276737174817494, 'epoch': 7.0}
+{'eval_loss': 1.5216584205627441, 'eval_accuracy': 0.564, 'eval_precision': 0.31809599999999993, 'eval_recall': 0.564, 'eval_f1': 0.40677237851662396, 'eval_runtime': 4.6148, 'eval_samples_per_second': 108.346, 'eval_steps_per_second': 3.467, 'epoch': 7.0}
+Chosen bandit 1143
+length of bendit 27
+inference results
+predicted_label
+0    27
+Name: count, dtype: int64
+inference results
+predicted_label
+0    27
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 405
+length of bendit 103
+inference results
+predicted_label
+0    103
+Name: count, dtype: int64
+inference results
+predicted_label
+0    103
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 282
+length of bendit 139
+inference results
+predicted_label
+0    139
+Name: count, dtype: int64
+inference results
+predicted_label
+0    139
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 384
+length of bendit 109
+inference results
+predicted_label
+0    109
+Name: count, dtype: int64
+inference results
+predicted_label
+0    109
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 279
+length of bendit 141
+inference results
+predicted_label
+0    141
+Name: count, dtype: int64
+inference results
+predicted_label
+0    141
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 544
+length of bendit 83
+inference results
+predicted_label
+0    83
+Name: count, dtype: int64
+inference results
+predicted_label
+0    83
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1144
+length of bendit 27
+inference results
+predicted_label
+0    27
+Name: count, dtype: int64
+inference results
+predicted_label
+0    27
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 151
+length of bendit 219
+inference results
+predicted_label
+0    219
+Name: count, dtype: int64
+inference results
+predicted_label
+0    219
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 240
+length of bendit 154
+inference results
+predicted_label
+0    154
+Name: count, dtype: int64
+inference results
+predicted_label
+0    154
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 934
+length of bendit 44
+inference results
+predicted_label
+0    44
+Name: count, dtype: int64
+inference results
+predicted_label
+0    44
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 581
+length of bendit 78
+inference results
+predicted_label
+0    78
+Name: count, dtype: int64
+inference results
+predicted_label
+0    78
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1003
+length of bendit 39
+inference results
+predicted_label
+0    39
+Name: count, dtype: int64
+inference results
+predicted_label
+0    39
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 638
+length of bendit 71
+inference results
+predicted_label
+0    71
+Name: count, dtype: int64
+inference results
+predicted_label
+0    71
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1003
+length of bendit 39
+inference results
+predicted_label
+0    39
+Name: count, dtype: int64
+inference results
+predicted_label
+0    39
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1175
+length of bendit 25
+inference results
+predicted_label
+0    25
+Name: count, dtype: int64
+inference results
+predicted_label
+0    25
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 842
+length of bendit 51
+inference results
+predicted_label
+0    51
+Name: count, dtype: int64
+inference results
+predicted_label
+0    51
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 394
+length of bendit 107
+inference results
+predicted_label
+0    107
+Name: count, dtype: int64
+inference results
+predicted_label
+0    107
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 920
+length of bendit 45
+inference results
+predicted_label
+0    45
+Name: count, dtype: int64
+inference results
+predicted_label
+0    45
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 437
+length of bendit 99
+inference results
+predicted_label
+0    99
+Name: count, dtype: int64
+inference results
+predicted_label
+0    99
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 896
+length of bendit 46
+inference results
+predicted_label
+0    46
+Name: count, dtype: int64
+inference results
+predicted_label
+0    46
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 125
+length of bendit 249
+inference results
+predicted_label
+0    249
+Name: count, dtype: int64
+inference results
+predicted_label
+0    249
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 849
+length of bendit 50
+inference results
+predicted_label
+0    50
+Name: count, dtype: int64
+inference results
+predicted_label
+0    50
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1211
+length of bendit 21
+inference results
+predicted_label
+0    21
+Name: count, dtype: int64
+inference results
+predicted_label
+0    21
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 193
+length of bendit 186
+inference results
+predicted_label
+0    186
+Name: count, dtype: int64
+inference results
+predicted_label
+0    186
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 782
+length of bendit 57
+inference results
+predicted_label
+0    57
+Name: count, dtype: int64
+inference results
+predicted_label
+0    57
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1203
+length of bendit 22
+inference results
+predicted_label
+0    22
+Name: count, dtype: int64
+inference results
+predicted_label
+0    22
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 632
+length of bendit 70
+inference results
+predicted_label
+0    70
+Name: count, dtype: int64
+inference results
+predicted_label
+0    70
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 892
+length of bendit 47
+inference results
+predicted_label
+0    47
+Name: count, dtype: int64
+inference results
+predicted_label
+0    47
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 899
+length of bendit 46
+inference results
+predicted_label
+0    46
+Name: count, dtype: int64
+inference results
+predicted_label
+0    46
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 779
+length of bendit 57
+inference results
+predicted_label
+0    57
+Name: count, dtype: int64
+inference results
+predicted_label
+0    57
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 937
+length of bendit 43
+inference results
+predicted_label
+0    43
+Name: count, dtype: int64
+inference results
+predicted_label
+0    43
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 177
+length of bendit 200
+inference results
+predicted_label
+0    200
+Name: count, dtype: int64
+inference results
+predicted_label
+0    200
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 795
+length of bendit 56
+inference results
+predicted_label
+0    56
+Name: count, dtype: int64
+inference results
+predicted_label
+0    56
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 974
+length of bendit 40
+inference results
+predicted_label
+0    40
+Name: count, dtype: int64
+inference results
+predicted_label
+0    40
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 444
+length of bendit 97
+inference results
+predicted_label
+0    97
+Name: count, dtype: int64
+inference results
+predicted_label
+0    97
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1174
+length of bendit 25
+inference results
+predicted_label
+0    25
+Name: count, dtype: int64
+inference results
+predicted_label
+0    25
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 418
+length of bendit 102
+inference results
+predicted_label
+0    102
+Name: count, dtype: int64
+inference results
+predicted_label
+0    102
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1176
+length of bendit 25
+inference results
+predicted_label
+0    25
+Name: count, dtype: int64
+inference results
+predicted_label
+0    25
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1126
+length of bendit 28
+inference results
+predicted_label
+0    28
+Name: count, dtype: int64
+inference results
+predicted_label
+0    28
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 550
+length of bendit 83
+inference results
+predicted_label
+0    83
+Name: count, dtype: int64
+inference results
+predicted_label
+0    83
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 34
+length of bendit 550
+inference results
+predicted_label
+0    550
+Name: count, dtype: int64
+inference results
+predicted_label
+0    550
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 275
+length of bendit 145
+inference results
+predicted_label
+0    145
+Name: count, dtype: int64
+inference results
+predicted_label
+0    145
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 872
+length of bendit 49
+inference results
+predicted_label
+0    49
+Name: count, dtype: int64
+inference results
+predicted_label
+0    49
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 782
+length of bendit 57
+inference results
+predicted_label
+0    57
+Name: count, dtype: int64
+inference results
+predicted_label
+0    57
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 471
+length of bendit 90
+inference results
+predicted_label
+0    90
+Name: count, dtype: int64
+inference results
+predicted_label
+0    90
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1056
+length of bendit 35
+inference results
+predicted_label
+0    35
+Name: count, dtype: int64
+inference results
+predicted_label
+0    35
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 496
+length of bendit 88
+inference results
+predicted_label
+0    88
+Name: count, dtype: int64
+inference results
+predicted_label
+0    88
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 679
+length of bendit 67
+inference results
+predicted_label
+0    67
+Name: count, dtype: int64
+inference results
+predicted_label
+0    67
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 358
+length of bendit 116
+inference results
+predicted_label
+0    116
+Name: count, dtype: int64
+inference results
+predicted_label
+0    116
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 749
+length of bendit 60
+inference results
+predicted_label
+0    60
+Name: count, dtype: int64
+inference results
+predicted_label
+0    60
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 302
+length of bendit 131
+inference results
+predicted_label
+0    131
+Name: count, dtype: int64
+inference results
+predicted_label
+0    131
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 877
+length of bendit 48
+inference results
+predicted_label
+0    48
+Name: count, dtype: int64
+inference results
+predicted_label
+0    48
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 864
+length of bendit 48
+inference results
+predicted_label
+0    48
+Name: count, dtype: int64
+inference results
+predicted_label
+0    48
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 465
+length of bendit 94
+inference results
+predicted_label
+0    94
+Name: count, dtype: int64
+inference results
+predicted_label
+0    94
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 494
+length of bendit 90
+inference results
+predicted_label
+0    90
+Name: count, dtype: int64
+inference results
+predicted_label
+0    90
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 412
+length of bendit 103
+inference results
+predicted_label
+0    103
+Name: count, dtype: int64
+inference results
+predicted_label
+0    103
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 823
+length of bendit 53
+inference results
+predicted_label
+0    53
+Name: count, dtype: int64
+inference results
+predicted_label
+0    53
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1129
+length of bendit 29
+inference results
+predicted_label
+0    29
+Name: count, dtype: int64
+inference results
+predicted_label
+0    29
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 325
+length of bendit 120
+inference results
+predicted_label
+0    120
+Name: count, dtype: int64
+inference results
+predicted_label
+0    120
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 440
+length of bendit 98
+inference results
+predicted_label
+0    98
+Name: count, dtype: int64
+inference results
+predicted_label
+0    98
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 568
+length of bendit 80
+inference results
+predicted_label
+0    80
+Name: count, dtype: int64
+inference results
+predicted_label
+0    80
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 837
+length of bendit 52
+inference results
+predicted_label
+0    52
+Name: count, dtype: int64
+inference results
+predicted_label
+0    52
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 93
+length of bendit 309
+inference results
+predicted_label
+0    309
+Name: count, dtype: int64
+inference results
+predicted_label
+0    309
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1131
+length of bendit 28
+inference results
+predicted_label
+0    28
+Name: count, dtype: int64
+inference results
+predicted_label
+0    28
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1031
+length of bendit 37
+inference results
+predicted_label
+0    37
+Name: count, dtype: int64
+inference results
+predicted_label
+0    37
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 821
+length of bendit 54
+inference results
+predicted_label
+0    54
+Name: count, dtype: int64
+inference results
+predicted_label
+0    54
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 303
+length of bendit 130
+inference results
+predicted_label
+0    130
+Name: count, dtype: int64
+inference results
+predicted_label
+0    130
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 112
+length of bendit 265
+inference results
+predicted_label
+0    265
+Name: count, dtype: int64
+inference results
+predicted_label
+0    265
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 15
+length of bendit 768
+inference results
+predicted_label
+0    768
+Name: count, dtype: int64
+inference results
+predicted_label
+0    768
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1097
+length of bendit 32
+inference results
+predicted_label
+0    32
+Name: count, dtype: int64
+inference results
+predicted_label
+0    32
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1091
+length of bendit 32
+inference results
+predicted_label
+0    32
+Name: count, dtype: int64
+inference results
+predicted_label
+0    32
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 0
+length of bendit 2249
+inference results
+predicted_label
+0    2249
+Name: count, dtype: int64
+inference results
+predicted_label
+0    2249
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 950
+length of bendit 42
+inference results
+predicted_label
+0    42
+Name: count, dtype: int64
+inference results
+predicted_label
+0    42
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1012
+length of bendit 38
+inference results
+predicted_label
+0    38
+Name: count, dtype: int64
+inference results
+predicted_label
+0    38
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 362
+length of bendit 114
+inference results
+predicted_label
+0    114
+Name: count, dtype: int64
+inference results
+predicted_label
+0    114
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 724
+length of bendit 63
+inference results
+predicted_label
+0    63
+Name: count, dtype: int64
+inference results
+predicted_label
+0    63
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1068
+length of bendit 33
+inference results
+predicted_label
+0    33
+Name: count, dtype: int64
+inference results
+predicted_label
+0    33
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 393
+length of bendit 107
+inference results
+predicted_label
+0    107
+Name: count, dtype: int64
+inference results
+predicted_label
+0    107
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1204
+length of bendit 22
+inference results
+predicted_label
+0    22
+Name: count, dtype: int64
+inference results
+predicted_label
+0    22
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 166
+length of bendit 207
+inference results
+predicted_label
+0    207
+Name: count, dtype: int64
+inference results
+predicted_label
+0    207
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1030
+length of bendit 37
+inference results
+predicted_label
+0    37
+Name: count, dtype: int64
+inference results
+predicted_label
+0    37
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 667
+length of bendit 69
+inference results
+predicted_label
+0    69
+Name: count, dtype: int64
+inference results
+predicted_label
+0    69
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 130
+length of bendit 243
+inference results
+predicted_label
+0    243
+Name: count, dtype: int64
+inference results
+predicted_label
+0    243
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 996
+length of bendit 39
+inference results
+predicted_label
+0    39
+Name: count, dtype: int64
+inference results
+predicted_label
+0    39
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 480
+length of bendit 92
+inference results
+predicted_label
+0    92
+Name: count, dtype: int64
+inference results
+predicted_label
+0    92
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 66
+length of bendit 376
+inference results
+predicted_label
+0    376
+Name: count, dtype: int64
+inference results
+predicted_label
+0    376
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 910
+length of bendit 46
+inference results
+predicted_label
+0    46
+Name: count, dtype: int64
+inference results
+predicted_label
+0    46
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 492
+length of bendit 90
+inference results
+predicted_label
+0    90
+Name: count, dtype: int64
+inference results
+predicted_label
+0    90
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 129
+length of bendit 244
+inference results
+predicted_label
+0    244
+Name: count, dtype: int64
+inference results
+predicted_label
+0    244
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 567
+length of bendit 80
+inference results
+predicted_label
+0    80
+Name: count, dtype: int64
+inference results
+predicted_label
+0    80
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1203
+length of bendit 22
+inference results
+predicted_label
+0    22
+Name: count, dtype: int64
+inference results
+predicted_label
+0    22
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1131
+length of bendit 28
+inference results
+predicted_label
+0    28
+Name: count, dtype: int64
+inference results
+predicted_label
+0    28
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 67
+length of bendit 374
+inference results
+predicted_label
+0    374
+Name: count, dtype: int64
+inference results
+predicted_label
+0    374
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 573
+length of bendit 79
+inference results
+predicted_label
+0    79
+Name: count, dtype: int64
+inference results
+predicted_label
+0    79
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 272
+length of bendit 146
+inference results
+predicted_label
+0    146
+Name: count, dtype: int64
+inference results
+predicted_label
+0    146
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 117
+length of bendit 256
+inference results
+predicted_label
+0    256
+Name: count, dtype: int64
+inference results
+predicted_label
+0    256
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 615
+length of bendit 75
+inference results
+predicted_label
+0    75
+Name: count, dtype: int64
+inference results
+predicted_label
+0    75
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1084
+length of bendit 32
+inference results
+predicted_label
+0    32
+Name: count, dtype: int64
+inference results
+predicted_label
+0    32
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 407
+length of bendit 104
+inference results
+predicted_label
+0    104
+Name: count, dtype: int64
+inference results
+predicted_label
+0    104
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1030
+length of bendit 37
+inference results
+predicted_label
+0    37
+Name: count, dtype: int64
+inference results
+predicted_label
+0    37
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1155
+length of bendit 27
+inference results
+predicted_label
+0    27
+Name: count, dtype: int64
+inference results
+predicted_label
+0    27
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 388
+length of bendit 108
+inference results
+predicted_label
+0    108
+Name: count, dtype: int64
+inference results
+predicted_label
+0    108
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 814
+length of bendit 54
+inference results
+predicted_label
+0    54
+Name: count, dtype: int64
+inference results
+predicted_label
+0    54
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 178
+length of bendit 199
+inference results
+predicted_label
+0    199
+Name: count, dtype: int64
+inference results
+predicted_label
+0    199
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 934
+length of bendit 44
+inference results
+predicted_label
+0    44
+Name: count, dtype: int64
+inference results
+predicted_label
+0    44
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 85
+length of bendit 328
+inference results
+predicted_label
+0    328
+Name: count, dtype: int64
+inference results
+predicted_label
+0    328
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 935
+length of bendit 43
+inference results
+predicted_label
+0    43
+Name: count, dtype: int64
+inference results
+predicted_label
+0    43
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 738
+length of bendit 61
+inference results
+predicted_label
+0    61
+Name: count, dtype: int64
+inference results
+predicted_label
+0    61
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1124
+length of bendit 30
+inference results
+predicted_label
+0    30
+Name: count, dtype: int64
+inference results
+predicted_label
+0    30
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 390
+length of bendit 108
+inference results
+predicted_label
+0    108
+Name: count, dtype: int64
+inference results
+predicted_label
+0    108
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 121
+length of bendit 255
+inference results
+predicted_label
+0    255
+Name: count, dtype: int64
+inference results
+predicted_label
+0    255
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 932
+length of bendit 44
+inference results
+predicted_label
+0    44
+Name: count, dtype: int64
+inference results
+predicted_label
+0    44
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 818
+length of bendit 53
+inference results
+predicted_label
+0    53
+Name: count, dtype: int64
+inference results
+predicted_label
+0    53
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1124
+length of bendit 30
+inference results
+predicted_label
+0    30
+Name: count, dtype: int64
+inference results
+predicted_label
+0    30
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 9
+length of bendit 971
+inference results
+predicted_label
+0    971
+Name: count, dtype: int64
+inference results
+predicted_label
+0    971
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 874
+length of bendit 49
+inference results
+predicted_label
+0    49
+Name: count, dtype: int64
+inference results
+predicted_label
+0    49
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 740
+length of bendit 60
+inference results
+predicted_label
+0    60
+Name: count, dtype: int64
+inference results
+predicted_label
+0    60
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 13
+length of bendit 774
+inference results
+predicted_label
+0    774
+Name: count, dtype: int64
+inference results
+predicted_label
+0    774
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 665
+length of bendit 68
+inference results
+predicted_label
+0    68
+Name: count, dtype: int64
+inference results
+predicted_label
+0    68
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1068
+length of bendit 33
+inference results
+predicted_label
+0    33
+Name: count, dtype: int64
+inference results
+predicted_label
+0    33
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 452
+length of bendit 95
+inference results
+predicted_label
+0    95
+Name: count, dtype: int64
+inference results
+predicted_label
+0    95
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 180
+length of bendit 196
+inference results
+predicted_label
+0    196
+Name: count, dtype: int64
+inference results
+predicted_label
+0    196
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1183
+length of bendit 24
+inference results
+predicted_label
+0    24
+Name: count, dtype: int64
+inference results
+predicted_label
+0    24
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 688
+length of bendit 66
+inference results
+predicted_label
+0    66
+Name: count, dtype: int64
+inference results
+predicted_label
+0    66
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1127
+length of bendit 29
+inference results
+predicted_label
+0    29
+Name: count, dtype: int64
+inference results
+predicted_label
+0    29
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 490
+length of bendit 91
+inference results
+predicted_label
+0    91
+Name: count, dtype: int64
+inference results
+predicted_label
+0    91
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 1079
+length of bendit 33
+inference results
+predicted_label
+0    33
+Name: count, dtype: int64
+inference results
+predicted_label
+0    33
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 201
+length of bendit 180
+inference results
+predicted_label
+0    180
+Name: count, dtype: int64
+inference results
+predicted_label
+0    180
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 38
+length of bendit 493
+inference results
+predicted_label
+0    493
+Name: count, dtype: int64
+inference results
+predicted_label
+0    493
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 869
+length of bendit 49
+inference results
+predicted_label
+0    49
+Name: count, dtype: int64
+inference results
+predicted_label
+0    49
+Name: count, dtype: int64
+no positive data available
+Chosen bandit 3
+length of bendit 1478
+inference results
+predicted_label
+0    1477
+1       1
+Name: count, dtype: int64
+inference results
+predicted_label
+0    1477
+1       1
+Name: count, dtype: int64
+df for inference created
+label
+0    195
+1      5
+Name: count, dtype: int64
+adding positive data: label
+0    195
+1      5
+Name: count, dtype: int64
+Balanced data: label
+0    10
+1     5
+Name: count, dtype: int64
+using model models/fine_tunned_3_bandit_1027
+previous model f1 metric baseline of: 0.6503519319544909
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.6231582164764404, 'eval_accuracy': 0.62, 'eval_precision': 0.6221542827657379, 'eval_recall': 0.62, 'eval_f1': 0.620830486798012, 'eval_runtime': 4.5687, 'eval_samples_per_second': 109.44, 'eval_steps_per_second': 3.502, 'epoch': 1.0}
+{'eval_loss': 0.6923325657844543, 'eval_accuracy': 0.618, 'eval_precision': 0.6125942857142856, 'eval_recall': 0.618, 'eval_f1': 0.6106322589299564, 'eval_runtime': 4.5904, 'eval_samples_per_second': 108.924, 'eval_steps_per_second': 3.486, 'epoch': 2.0}
+{'eval_loss': 0.7016416192054749, 'eval_accuracy': 0.614, 'eval_precision': 0.6079497060153776, 'eval_recall': 0.614, 'eval_f1': 0.6038710343572664, 'eval_runtime': 4.5894, 'eval_samples_per_second': 108.947, 'eval_steps_per_second': 3.486, 'epoch': 3.0}
+{'eval_loss': 0.7100915312767029, 'eval_accuracy': 0.608, 'eval_precision': 0.6012353426919901, 'eval_recall': 0.608, 'eval_f1': 0.5942540921854667, 'eval_runtime': 4.6029, 'eval_samples_per_second': 108.626, 'eval_steps_per_second': 3.476, 'epoch': 4.0}
+{'eval_loss': 0.7092887163162231, 'eval_accuracy': 0.608, 'eval_precision': 0.6013031326781326, 'eval_recall': 0.608, 'eval_f1': 0.5921540397510816, 'eval_runtime': 4.6119, 'eval_samples_per_second': 108.414, 'eval_steps_per_second': 3.469, 'epoch': 5.0}
+{'eval_loss': 0.7131596803665161, 'eval_accuracy': 0.61, 'eval_precision': 0.6036891694997572, 'eval_recall': 0.61, 'eval_f1': 0.5931320627424522, 'eval_runtime': 4.6073, 'eval_samples_per_second': 108.523, 'eval_steps_per_second': 3.473, 'epoch': 6.0}
+{'eval_loss': 0.7079377174377441, 'eval_accuracy': 0.608, 'eval_precision': 0.601264761904762, 'eval_recall': 0.608, 'eval_f1': 0.5928712162905889, 'eval_runtime': 4.6065, 'eval_samples_per_second': 108.541, 'eval_steps_per_second': 3.473, 'epoch': 7.0}
+{'train_runtime': 45.3006, 'train_samples_per_second': 6.622, 'train_steps_per_second': 0.441, 'train_loss': 0.5832531111580985, 'epoch': 7.0}
+{'eval_loss': 0.6231582164764404, 'eval_accuracy': 0.62, 'eval_precision': 0.6221542827657379, 'eval_recall': 0.62, 'eval_f1': 0.620830486798012, 'eval_runtime': 4.6068, 'eval_samples_per_second': 108.535, 'eval_steps_per_second': 3.473, 'epoch': 7.0}
+Chosen bandit 1022
+length of bendit 38
+inference results
+predicted_label
+0    31
+1     7
+Name: count, dtype: int64
+inference results
+predicted_label
+0    31
+1     7
+Name: count, dtype: int64
+df for inference created
+label
+0    38
+Name: count, dtype: int64
+adding positive data: label
+0    38
+1     5
+Name: count, dtype: int64
+Balanced data: label
+0    10
+1     5
+Name: count, dtype: int64
+using model models/fine_tunned_3_bandit_1027
+previous model f1 metric baseline of: 0.6503519319544909
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.7494328618049622, 'eval_accuracy': 0.606, 'eval_precision': 0.5989998292187707, 'eval_recall': 0.606, 'eval_f1': 0.5911479434287211, 'eval_runtime': 4.5733, 'eval_samples_per_second': 109.331, 'eval_steps_per_second': 3.499, 'epoch': 1.0}
+{'eval_loss': 0.7986018061637878, 'eval_accuracy': 0.604, 'eval_precision': 0.5971357466063348, 'eval_recall': 0.604, 'eval_f1': 0.5832687201553235, 'eval_runtime': 4.5832, 'eval_samples_per_second': 109.094, 'eval_steps_per_second': 3.491, 'epoch': 2.0}
+{'eval_loss': 0.7694305777549744, 'eval_accuracy': 0.608, 'eval_precision': 0.6018227453204764, 'eval_recall': 0.608, 'eval_f1': 0.5996623791509037, 'eval_runtime': 4.5937, 'eval_samples_per_second': 108.846, 'eval_steps_per_second': 3.483, 'epoch': 3.0}
+{'eval_loss': 0.7259893417358398, 'eval_accuracy': 0.604, 'eval_precision': 0.601399576046635, 'eval_recall': 0.604, 'eval_f1': 0.6022271273717181, 'eval_runtime': 4.6015, 'eval_samples_per_second': 108.66, 'eval_steps_per_second': 3.477, 'epoch': 4.0}
+{'eval_loss': 0.7042684555053711, 'eval_accuracy': 0.604, 'eval_precision': 0.6031990066008758, 'eval_recall': 0.604, 'eval_f1': 0.6035610328638498, 'eval_runtime': 4.6036, 'eval_samples_per_second': 108.611, 'eval_steps_per_second': 3.476, 'epoch': 5.0}
+{'eval_loss': 0.6894639730453491, 'eval_accuracy': 0.612, 'eval_precision': 0.6128337546179273, 'eval_recall': 0.612, 'eval_f1': 0.612377922077922, 'eval_runtime': 4.6087, 'eval_samples_per_second': 108.491, 'eval_steps_per_second': 3.472, 'epoch': 6.0}
+{'eval_loss': 0.7010631561279297, 'eval_accuracy': 0.608, 'eval_precision': 0.608841013675546, 'eval_recall': 0.608, 'eval_f1': 0.6083818181818181, 'eval_runtime': 4.6226, 'eval_samples_per_second': 108.165, 'eval_steps_per_second': 3.461, 'epoch': 7.0}
+{'train_runtime': 44.547, 'train_samples_per_second': 6.734, 'train_steps_per_second': 0.449, 'train_loss': 0.31341443743024555, 'epoch': 7.0}
+{'eval_loss': 0.6894639730453491, 'eval_accuracy': 0.612, 'eval_precision': 0.6128337546179273, 'eval_recall': 0.612, 'eval_f1': 0.612377922077922, 'eval_runtime': 4.6278, 'eval_samples_per_second': 108.042, 'eval_steps_per_second': 3.457, 'epoch': 7.0}
+Chosen bandit 1140
+length of bendit 27
+inference results
+predicted_label
+1    24
+0     3
+Name: count, dtype: int64
+inference results
+predicted_label
+1    24
+0     3
+Name: count, dtype: int64
+df for inference created
+label
+0    27
+Name: count, dtype: int64
+adding positive data: label
+0    27
+1     5
+Name: count, dtype: int64
+Balanced data: label
+0    10
+1     5
+Name: count, dtype: int64
+using model models/fine_tunned_3_bandit_1027
+previous model f1 metric baseline of: 0.6503519319544909
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.6746392250061035, 'eval_accuracy': 0.616, 'eval_precision': 0.6114950900163667, 'eval_recall': 0.616, 'eval_f1': 0.611509777578743, 'eval_runtime': 4.5729, 'eval_samples_per_second': 109.34, 'eval_steps_per_second': 3.499, 'epoch': 1.0}
+{'eval_loss': 0.7566102147102356, 'eval_accuracy': 0.574, 'eval_precision': 0.5595181286549707, 'eval_recall': 0.574, 'eval_f1': 0.5284324957796783, 'eval_runtime': 4.592, 'eval_samples_per_second': 108.884, 'eval_steps_per_second': 3.484, 'epoch': 2.0}
+{'eval_loss': 0.7676383256912231, 'eval_accuracy': 0.558, 'eval_precision': 0.532980818527358, 'eval_recall': 0.558, 'eval_f1': 0.49993028592693667, 'eval_runtime': 4.597, 'eval_samples_per_second': 108.766, 'eval_steps_per_second': 3.481, 'epoch': 3.0}
+{'eval_loss': 0.7490788698196411, 'eval_accuracy': 0.574, 'eval_precision': 0.5597647058823529, 'eval_recall': 0.574, 'eval_f1': 0.5374977711738483, 'eval_runtime': 4.6045, 'eval_samples_per_second': 108.59, 'eval_steps_per_second': 3.475, 'epoch': 4.0}
+{'eval_loss': 0.7184694409370422, 'eval_accuracy': 0.598, 'eval_precision': 0.5901183730715287, 'eval_recall': 0.598, 'eval_f1': 0.5842471105866055, 'eval_runtime': 4.7745, 'eval_samples_per_second': 104.723, 'eval_steps_per_second': 3.351, 'epoch': 5.0}
+{'eval_loss': 0.7165215015411377, 'eval_accuracy': 0.602, 'eval_precision': 0.5949716870194481, 'eval_recall': 0.602, 'eval_f1': 0.5915561442336582, 'eval_runtime': 4.6109, 'eval_samples_per_second': 108.44, 'eval_steps_per_second': 3.47, 'epoch': 6.0}
+{'eval_loss': 0.7349434494972229, 'eval_accuracy': 0.598, 'eval_precision': 0.5901183730715287, 'eval_recall': 0.598, 'eval_f1': 0.5842471105866055, 'eval_runtime': 4.6145, 'eval_samples_per_second': 108.354, 'eval_steps_per_second': 3.467, 'epoch': 7.0}
+{'train_runtime': 44.6872, 'train_samples_per_second': 6.713, 'train_steps_per_second': 0.448, 'train_loss': 0.39733382633754183, 'epoch': 7.0}
+{'eval_loss': 0.6746392250061035, 'eval_accuracy': 0.616, 'eval_precision': 0.6114950900163667, 'eval_recall': 0.616, 'eval_f1': 0.611509777578743, 'eval_runtime': 4.6162, 'eval_samples_per_second': 108.314, 'eval_steps_per_second': 3.466, 'epoch': 7.0}
+Chosen bandit 914
+length of bendit 45
+inference results
+predicted_label
+1    29
+0    16
+Name: count, dtype: int64
+inference results
+predicted_label
+1    29
+0    16
+Name: count, dtype: int64
+df for inference created
+label
+0    42
+1     3
+Name: count, dtype: int64
+adding positive data: label
+0    42
+1     8
+Name: count, dtype: int64
+Balanced data: label
+0    16
+1     8
+Name: count, dtype: int64
+using model models/fine_tunned_3_bandit_1027
+previous model f1 metric baseline of: 0.6503519319544909
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.581840455532074, 'eval_accuracy': 0.664, 'eval_precision': 0.6984563515954244, 'eval_recall': 0.664, 'eval_f1': 0.6617384615384616, 'eval_runtime': 4.5812, 'eval_samples_per_second': 109.141, 'eval_steps_per_second': 3.493, 'epoch': 1.0}
+{'eval_loss': 0.619600236415863, 'eval_accuracy': 0.66, 'eval_precision': 0.6743127048390206, 'eval_recall': 0.66, 'eval_f1': 0.6610455506438593, 'eval_runtime': 4.5905, 'eval_samples_per_second': 108.921, 'eval_steps_per_second': 3.485, 'epoch': 2.0}
+{'eval_loss': 0.682191789150238, 'eval_accuracy': 0.622, 'eval_precision': 0.6177777097262628, 'eval_recall': 0.622, 'eval_f1': 0.6177760025854461, 'eval_runtime': 4.5946, 'eval_samples_per_second': 108.824, 'eval_steps_per_second': 3.482, 'epoch': 3.0}
+{'eval_loss': 0.7202805280685425, 'eval_accuracy': 0.588, 'eval_precision': 0.5782884569989771, 'eval_recall': 0.588, 'eval_f1': 0.5689736111111111, 'eval_runtime': 4.6082, 'eval_samples_per_second': 108.501, 'eval_steps_per_second': 3.472, 'epoch': 4.0}
+{'eval_loss': 0.7396225929260254, 'eval_accuracy': 0.576, 'eval_precision': 0.5626821120689656, 'eval_recall': 0.576, 'eval_f1': 0.5437259534984087, 'eval_runtime': 4.6102, 'eval_samples_per_second': 108.456, 'eval_steps_per_second': 3.471, 'epoch': 5.0}
+{'eval_loss': 0.7464195489883423, 'eval_accuracy': 0.566, 'eval_precision': 0.5488797953964195, 'eval_recall': 0.566, 'eval_f1': 0.5288122833085686, 'eval_runtime': 4.6136, 'eval_samples_per_second': 108.375, 'eval_steps_per_second': 3.468, 'epoch': 6.0}
+{'eval_loss': 0.7424327731132507, 'eval_accuracy': 0.578, 'eval_precision': 0.5655152573806905, 'eval_recall': 0.578, 'eval_f1': 0.5496343077354385, 'eval_runtime': 4.6138, 'eval_samples_per_second': 108.371, 'eval_steps_per_second': 3.468, 'epoch': 7.0}
+{'train_runtime': 46.4536, 'train_samples_per_second': 10.333, 'train_steps_per_second': 0.431, 'train_loss': 0.5211613859449115, 'epoch': 7.0}
+{'eval_loss': 0.581840455532074, 'eval_accuracy': 0.664, 'eval_precision': 0.6984563515954244, 'eval_recall': 0.664, 'eval_f1': 0.6617384615384616, 'eval_runtime': 4.6196, 'eval_samples_per_second': 108.233, 'eval_steps_per_second': 3.463, 'epoch': 7.0}
+Model improved with 0.011386529583970684
+Chosen bandit 1020
+length of bendit 38
+inference results
+predicted_label
+1    31
+0     7
+Name: count, dtype: int64
+inference results
+predicted_label
+1    31
+0     7
+Name: count, dtype: int64
+df for inference created
+label
+0    35
+1     3
+Name: count, dtype: int64
+Balanced data: label
+0    6
+1    3
+Name: count, dtype: int64
+using model models/fine_tunned_8_bandit_914
+previous model f1 metric baseline of: 0.6617384615384616
+Starting training
+Unbalanced? True
+using modified loss function
+{'eval_loss': 0.67591392993927, 'eval_accuracy': 0.63, 'eval_precision': 0.6260184759863217, 'eval_recall': 0.63, 'eval_f1': 0.6258653993561245, 'eval_runtime': 4.5782, 'eval_samples_per_second': 109.214, 'eval_steps_per_second': 3.495, 'epoch': 1.0}
+{'eval_loss': 0.7092573046684265, 'eval_accuracy': 0.618, 'eval_precision': 0.6125102184102166, 'eval_recall': 0.618, 'eval_f1': 0.6036002903293691, 'eval_runtime': 4.5858, 'eval_samples_per_second': 109.032, 'eval_steps_per_second': 3.489, 'epoch': 2.0}
+{'eval_loss': 0.6887985467910767, 'eval_accuracy': 0.638, 'eval_precision': 0.6337501880323941, 'eval_recall': 0.638, 'eval_f1': 0.6314787739303275, 'eval_runtime': 4.5968, 'eval_samples_per_second': 108.77, 'eval_steps_per_second': 3.481, 'epoch': 3.0}
+{'eval_loss': 0.6629137396812439, 'eval_accuracy': 0.63, 'eval_precision': 0.6270278301808043, 'eval_recall': 0.63, 'eval_f1': 0.6275999029250013, 'eval_runtime': 4.6065, 'eval_samples_per_second': 108.542, 'eval_steps_per_second': 3.473, 'epoch': 4.0}
+{'eval_loss': 0.6225412487983704, 'eval_accuracy': 0.632, 'eval_precision': 0.6383301741803279, 'eval_recall': 0.632, 'eval_f1': 0.6334627850464282, 'eval_runtime': 4.6068, 'eval_samples_per_second': 108.536, 'eval_steps_per_second': 3.473, 'epoch': 5.0}
+{'eval_loss': 0.6469228267669678, 'eval_accuracy': 0.63, 'eval_precision': 0.6298093175489733, 'eval_recall': 0.63, 'eval_f1': 0.6299021462719967, 'eval_runtime': 4.6144, 'eval_samples_per_second': 108.356, 'eval_steps_per_second': 3.467, 'epoch': 6.0}
+{'eval_loss': 0.6684604287147522, 'eval_accuracy': 0.624, 'eval_precision': 0.6203387911865778, 'eval_recall': 0.624, 'eval_f1': 0.6207220130770754, 'eval_runtime': 4.6175, 'eval_samples_per_second': 108.284, 'eval_steps_per_second': 3.465, 'epoch': 7.0}
+{'train_runtime': 44.6765, 'train_samples_per_second': 4.029, 'train_steps_per_second': 0.448, 'train_loss': 0.5659095219203404, 'epoch': 7.0}
+{'eval_loss': 0.6887985467910767, 'eval_accuracy': 0.638, 'eval_precision': 0.6337501880323941, 'eval_recall': 0.638, 'eval_f1': 0.6314787739303275, 'eval_runtime': 4.611, 'eval_samples_per_second': 108.436, 'eval_steps_per_second': 3.47, 'epoch': 7.0}
+Bendt with highest expected improvement: 0
+[0. 0. 0. ... 0. 0. 0.]
+[0. 0. 0. ... 0. 0. 0.]

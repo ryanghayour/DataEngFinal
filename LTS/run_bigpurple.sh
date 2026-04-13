@@ -7,22 +7,22 @@
 #SBATCH --partition=gpu4_short
 #SBATCH --gres=gpu:1
 #SBATCH --time=04:00:00
-#SBATCH --output=/gpfs/scratch/np3106/DE_Project/DataEngFinal/LTS/lts_%j.out
-#SBATCH --error=/gpfs/scratch/np3106/DE_Project/DataEngFinal/LTS/lts_%j.err
+#SBATCH --output=/gpfs/scratch/yw5653/de_final/DataEngFinal/LTS/lts_%j.out
+#SBATCH --error=/gpfs/scratch/yw5653/de_final/DataEngFinal/LTS/lts_%j.err
 
-PROJECT_DIR=/gpfs/scratch/np3106/DE_Project/DataEngFinal/LTS
+PROJECT_DIR=/gpfs/scratch/yw5653/de_final/DataEngFinal/LTS
 cd $PROJECT_DIR
 
 module purge
 source ~/.bashrc
-conda activate /gpfs/scratch/np3106/venvs/lts
+conda activate /gpfs/scratch/yw5653/venvs/lts
 
 # Run LTS with HuggingFace model on leather dataset
 python main_cluster.py \
     -sample_size 200 \
     -filename "data_use_cases/data_leather" \
     -val_path "data_use_cases/leather_validation.csv" \
-    -balance False \
+    -balance True \
     -sampling "thompson" \
     -filter_label True \
     -model_finetune "bert-base-uncased" \
@@ -31,5 +31,4 @@ python main_cluster.py \
     -model "text" \
     -baseline 0.5 \
     -metric "f1" \
-    -cluster_size 10 \
-    -clustering "bertopic"
+    -clustering "top2vec"
