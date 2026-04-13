@@ -2,8 +2,7 @@ from gensim import corpora, models
 import nltk
 from nltk.tokenize import word_tokenize
 
-nltk.data.path.insert(0, '/gpfs/scratch/np3106/nltk_data')
-nltk.download('punkt', download_dir='/gpfs/scratch/np3106/nltk_data')
+nltk.download('punkt')
 
 
 class LDATopicModel:
