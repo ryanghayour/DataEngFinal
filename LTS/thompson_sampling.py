@@ -92,36 +92,37 @@ class ThompsonSampler:
         #remove already used data
         df = df[~df['id'].isin(self.selected_ids)]
 
-        data = pd.DataFrame()
-        while data.empty:
-            chosen_bandit = self.choose_bandit()
-            print(f"Chosen bandit {chosen_bandit}")
-            bandit_df = df[df["label_cluster"] == chosen_bandit]
-            print(f"length of bendit {len(bandit_df)}")
-            if not bandit_df.empty:
-                if filter_label:
-                    if trainer.get_clf():
-                        bandit_df["predicted_label"] = trainer.get_inference(bandit_df)
-                        print("inference results")
-                        print(bandit_df["predicted_label"].value_counts())
-                    if "predicted_label" in bandit_df.columns:
-                        print("inference results")
-                        print(bandit_df["predicted_label"].value_counts())
-                        pos = bandit_df[bandit_df["predicted_label"] == 1]
-                        neg = bandit_df[bandit_df["predicted_label"] == 0]
-                        if pos.empty:
-                            print("no positive data available")
-                            data=pos
-                        else:
-                            n_sample = sample_size/2
-                            data = select_data(pos, chosen_bandit, int(n_sample))
-                            neg_data = select_data(neg, chosen_bandit, int(sample_size-len(data)))
-                            data = pd.concat([data, neg_data]).sample(frac=1)
-                    else:
-                        data = select_data(bandit_df, chosen_bandit, sample_size)
-                else:
-                    data = select_data(bandit_df, chosen_bandit, sample_size)
+        chosen_bandit = self.choose_bandit()
+        print(f"Chosen bandit {chosen_bandit}")
+        bandit_df = df[df["label_cluster"] == chosen_bandit]
+        print(f"length of bendit {len(bandit_df)}")
 
+        if bandit_df.empty:
+            print("bandit is empty, skipping iteration")
+            return None, chosen_bandit
+
+        if filter_label:
+            if trainer.get_clf():
+                bandit_df["predicted_label"] = trainer.get_inference(bandit_df)
+                print("inference results")
+                print(bandit_df["predicted_label"].value_counts())
+            if "predicted_label" in bandit_df.columns:
+                print("inference results")
+                print(bandit_df["predicted_label"].value_counts())
+                pos = bandit_df[bandit_df["predicted_label"] == 1]
+                neg = bandit_df[bandit_df["predicted_label"] == 0]
+                if pos.empty:
+                    print("no positive data predicted, skipping iteration")
+                    return None, chosen_bandit
+                else:
+                    n_sample = sample_size/2
+                    data = select_data(pos, chosen_bandit, int(n_sample))
+                    neg_data = select_data(neg, chosen_bandit, int(sample_size-len(data)))
+                    data = pd.concat([data, neg_data]).sample(frac=1)
+            else:
+                data = select_data(bandit_df, chosen_bandit, sample_size)
+        else:
+            data = select_data(bandit_df, chosen_bandit, sample_size)
 
         # Add the IDs of sampled data to the selected_ids set
         self.selected_ids.update(data['id'])

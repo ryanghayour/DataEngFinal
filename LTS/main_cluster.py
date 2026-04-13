@@ -140,6 +140,14 @@ def main():
 
     for i in range(10):
         sample_data, chosen_bandit = sampler.get_sample_data(data, sample_size, filter_label, trainer)
+
+        # If no usable data was found (dead cluster), penalize and skip
+        if sample_data is None:
+            print(f"Iteration {i}: no data from bandit {chosen_bandit}, penalizing and skipping")
+            if sampling == "thompson":
+                sampler.update(chosen_bandit, -1)
+            continue
+
         ## Generate labels
         if labeling != "file":
             df = labeler.generate_inference_data(sample_data, 'clean_title')

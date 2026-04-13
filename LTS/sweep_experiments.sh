@@ -76,12 +76,11 @@ run_experiment() {
     echo "===== [$(date '+%H:%M:%S')] Finished $run_name ====="
 }
 
-# 6 experiments: 2 configs x 3 runs
-# balance=False is dropped because BERT collapses on extreme imbalance
-# without upsampling, which triggers an infinite loop in the original
-# thompson_sampling.py (no positives -> while data.empty never exits).
-for run in 1 2 3; do run_experiment lda      True $run; done
-for run in 1 2 3; do run_experiment bertopic True $run; done
+# 12 experiments: 4 configs x 3 runs
+for run in 1 2 3; do run_experiment lda      True  $run; done
+for run in 1 2 3; do run_experiment lda      False $run; done
+for run in 1 2 3; do run_experiment bertopic True  $run; done
+for run in 1 2 3; do run_experiment bertopic False $run; done
 
 echo ""
 echo "All experiments complete. Results in $RESULTS_DIR"
