@@ -136,7 +136,7 @@ def main():
             topics = bertopic_model.fit_transform(data['clean_title'].to_list())
         elif clustering == "top2vec":
             print("Training Top2Vec model...")
-            top2vec_model = Top2VecModel(speed="learn", workers=8)
+            top2vec_model = Top2VecModel(speed="learn", workers=8, cluster_size=cluster_size)
             topics = top2vec_model.fit_transform(data['clean_title'].to_list())
         else:
             lda_topic_model = LDATopicModel(num_topics=int(cluster_size) if cluster_size else 10)
@@ -234,6 +234,25 @@ def main():
         except Exception:
             still_unbalenced = True
         print(f"Unbalanced? {still_unbalenced}")
+        try:
+            still_unbalenced = len(df[df["label"]==0]) / len(df[df["label"]==1])  >= 2
+        except Exception:
+            still_unbalenced = True
+        print(f"Unbalanced? {still_unbalenced}")
+
+        # ==========================================
+        # Fast-Fail Protection
+        # ==========================================
+        # if not balance and len(df[df["label"] == 1]) == 0:
+        #     max_fail_size = 200
+        #     if len(df) > max_fail_size:
+        #         print(f"🚨 Safety Truncation Triggered: 0 positive samples! Truncated {len(df)} pure negative samples to {max_fail_size} samples to prevent compute explosion.")
+        #         df = df.sample(n=max_fail_size, random_state=42)
+        if not balance:
+            max_size = 500
+            if len(df) > max_size:
+                print(f"🚨 Safety Truncation Triggered: original length {len(df)}, shortened to {max_size} samples!")
+                df = df.sample(n=max_size, random_state=42)
 
         # Move labeling model to CPU to free GPU memory for BERT training
         if labeling == "huggingface":
@@ -250,7 +269,7 @@ def main():
         if reward_difference > 0:
             print(f"Model improved with {reward_difference}")
             model_name = f"models/fine_tunned_{i}_bandit_{chosen_bandit}"
-            trainer.update_model(model_name, results[f"eval_{metric}"], save_model=True)
+            trainer.update_model(model_name, results[f"eval_{metric}"], save_model=False)
             # df.to_csv("llama_training_data.csv", index=False)
             if os.path.exists(f'{filename}_training_data.csv'):
                 train_data = pd.read_csv(f'{filename}_training_data.csv')

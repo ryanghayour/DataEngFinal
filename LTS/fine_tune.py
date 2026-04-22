@@ -104,7 +104,7 @@ class BertFineTuner:
         training_args = TrainingArguments(
             output_dir="results",
             eval_strategy="epoch",  # "epoch", "steps", or EvaluationStrategy.EPOCH
-            save_strategy="epoch",
+            save_strategy="no",
             metric_for_best_model="eval_accuracy",
             per_device_train_batch_size=32,
             per_device_eval_batch_size=32,
@@ -115,7 +115,7 @@ class BertFineTuner:
             logging_steps=10,
             push_to_hub=False,
             logging_dir="./logs",
-            load_best_model_at_end=True,
+            load_best_model_at_end=False,
         )
         if still_unbalenced:
             print(f"using modified loss function")
@@ -193,7 +193,7 @@ class BertFineTuner:
         if save_model:
             self.save_model(model_name)
         self.last_model_acc = {model_name: model_acc}
-        self.model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2)
+        # self.model = BertForSequenceClassification.from_pretrained(model_name, num_labels=2)
         self.base_model = model_name
 
 

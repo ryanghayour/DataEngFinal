@@ -22,7 +22,7 @@ python main_cluster.py \
     -sample_size 200 \
     -filename "data_use_cases/data_leather" \
     -val_path "data_use_cases/leather_validation.csv" \
-    -balance True \
+    -balance False \
     -sampling "thompson" \
     -filter_label True \
     -model_finetune "bert-base-uncased" \
@@ -31,4 +31,5 @@ python main_cluster.py \
     -model "text" \
     -baseline 0.5 \
     -metric "f1" \
+    -cluster_size 10 \
     -clustering "top2vec"

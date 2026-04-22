@@ -6,7 +6,7 @@
 
 set -u  # error on undefined vars (but not on command failures — we want to continue)
 
-PROJECT_DIR=/gpfs/scratch/np3106/DE_Project/DataEngFinal/LTS
+PROJECT_DIR=/gpfs/scratch/yw5653/de_final/DataEngFinal/LTS
 cd "$PROJECT_DIR"
 
 RESULTS_DIR="$PROJECT_DIR/sweep_results_$(date +%Y%m%d_%H%M%S)"
@@ -56,7 +56,8 @@ run_experiment() {
     # Both LDA and BERTopic are stochastic now — delete cache for both
     # so each run gets fresh clusters (apples-to-apples variance comparison).
     rm -f data_use_cases/data_leather_lda.csv
-    rm -f data_use_cases/data_leather_bertopic.csv
+    # rm -f data_use_cases/data_leather_bertopic.csv
+    rm -f data_use_cases/data_leather_top2vec.csv
 
     python main_cluster.py \
         "${COMMON_ARGS[@]}" \
@@ -80,8 +81,12 @@ run_experiment() {
 # balance=False is dropped because BERT collapses on extreme imbalance
 # without upsampling, which triggers an infinite loop in the original
 # thompson_sampling.py (no positives -> while data.empty never exits).
-for run in 1 2 3; do run_experiment lda      True $run; done
-for run in 1 2 3; do run_experiment bertopic True $run; done
+
+# for run in 1 2 3; do run_experiment lda      True $run; done
+# for run in 1 2 3; do run_experiment top2vec  True $run; done
+
+# for run in 1 2 3; do run_experiment lda      False $run; done
+for run in 1 2 3; do run_experiment top2vec  False $run; done
 
 echo ""
 echo "All experiments complete. Results in $RESULTS_DIR"
