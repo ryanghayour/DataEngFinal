@@ -13,8 +13,9 @@ import pandas as pd
 
 
 class Labeling:
-    def __init__(self, label_model= "llama"):
+    def __init__(self, label_model="llama", dataset="leather"):
         self.label_model = label_model
+        self.dataset = dataset
         self.device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
     def generate_prompt(self, title):
@@ -23,6 +24,8 @@ class Labeling:
         elif self.label_model == "gpt":
             return self.generate_prompt_gpt(title)
         elif self.label_model == "huggingface":
+            if self.dataset == "reuters":
+                return self.generate_prompt_huggingface_reuters(title)
             return self.generate_prompt_huggingface(title)
         else:
             return None
@@ -110,6 +113,39 @@ class Labeling:
                              Label:
 
                              '''
+
+    def generate_prompt_huggingface_reuters(self, text):
+        return f'''You are a text classification tool.
+I will provide a Reuters news article. Classify it into one of two labels:
+Label 1: relevant - if the article is primarily about crude oil markets, oil prices, petroleum production, oil supply or demand, OPEC decisions, or oil refining.
+Label 2: not relevant - if the article is about something else, even if oil is briefly mentioned in passing.
+Return only one of the two labels: relevant or not relevant. No explanation is necessary.
+
+Examples:
+1. Article: Diamond Shamrock Corp said that effective today it had cut its contract prices for crude oil by 1.50 dlrs a barrel. The reduction brings its posted price for West Texas Intermediate to 16.00 dlrs a barrel.
+Label: relevant
+
+The article is directly about crude oil prices being cut.
+
+2. Article: The U.S. trade deficit widened to 15.1 bln dlrs in January as exports fell and imports rose sharply, the Commerce Department said.
+Label: not relevant
+
+The article is about trade deficits, not crude oil.
+
+3. Article: Saudi Arabia pumped 4.3 mln barrels per day in February, below its OPEC quota, as the cartel tried to stabilize falling oil prices amid a supply glut.
+Label: relevant
+
+The article is about oil production and OPEC policy.
+
+4. Article: American Express Co reported fourth-quarter net income of 302 mln dlrs or 1.01 dlrs per share, up from 267 mln dlrs or 89 cts a year ago.
+Label: not relevant
+
+The article is about company earnings, not crude oil.
+
+5. Article: {text}
+Label:
+
+'''
 
     def generate_llama_prompt(self):
         f'''You are labeling tool to create labels for a classification task .

@@ -8,12 +8,26 @@ from fine_tune import BertFineTuner
 from thompson_sampling import ThompsonSampler
 import nltk
 import json
+
 nltk.download('punkt')
 
 import os
 import torch
 from tqdm import tqdm
 from LDA import LDATopicModel
+from bertopic_cluster import BERTopicModel
+from top2vec_cluster import Top2VecModel
+
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
 
 def main():
     parser = argparse.ArgumentParser(prog="Sampling fine-tuning", description='Perform Sampling and fine tune')
@@ -23,9 +37,9 @@ def main():
                         help="Name of sampling method")
     parser.add_argument('-sample_size', type=int, required=False,
                         help="sample size")
-    parser.add_argument('-filter_label', type=bool, required=False,
+    parser.add_argument('-filter_label', type=str2bool, default=False, required=False,
                         help="use model clf results to filter data")
-    parser.add_argument('-balance', type=bool, required=False,
+    parser.add_argument('-balance', type=str2bool, default=False, required=False,
                         help="balance positive and neg sample")
     parser.add_argument('-model_finetune', type=str, required=False,
                         help="model base for fine tune")
@@ -46,6 +60,18 @@ def main():
     parser.add_argument('-hf_model', type=str, required=False,
                         default="mistralai/Mistral-7B-Instruct-v0.3",
                         help="HuggingFace model name (used when -labeling huggingface)")
+    # parser.add_argument('-clustering', type=str, required=False,
+    #                     default="lda",
+    #                     choices=["lda", "bertopic"],
+    #                     help="Clustering method: lda or bertopic")
+    parser.add_argument('-clustering', type=str, required=False,
+                        default="lda",
+                        choices=["lda", "bertopic", "top2vec"],
+                        help="Clustering method: lda, bertopic, or top2vec")
+    parser.add_argument('-dataset', type=str, required=False,
+                        default="leather",
+                        choices=["leather", "reuters"],
+                        help="Dataset: leather (title-based) or reuters (full-text)")
 
 
     args = parser.parse_args()
@@ -68,30 +94,65 @@ def main():
     preprocessor = TextPreprocessor()
 
 
+    dataset = args.dataset
+    text_col = "clean_text" if dataset == "reuters" else "clean_title"
+
     validation = pd.read_csv(validation_path)
-    validation["training_text"] = validation["title"]
+    validation["training_text"] = validation["text"] if dataset == "reuters" else validation["title"]
 
     os.makedirs("models", exist_ok=True)
     os.makedirs("data", exist_ok=True)
     os.makedirs("log", exist_ok=True)
     os.makedirs("results", exist_ok=True)
 
+    # clustering = args.clustering
+
+    # cache_suffix = "_lda" if clustering == "lda" else "_bertopic"
+    # cache_file = filename + cache_suffix + ".csv"
+
+    clustering = args.clustering
+
+    if clustering == "lda":
+        cache_suffix = "_lda"
+    elif clustering == "bertopic":
+        cache_suffix = "_bertopic"
+    else:
+        cache_suffix = "_top2vec"
+        
+    cache_file = filename + cache_suffix + ".csv"
+
     try:
-        data = pd.read_csv(filename+"_lda.csv")
+        data = pd.read_csv(cache_file)
         n_cluster = data['label_cluster'].value_counts().count()
-        print("using data saved on disk")
-        # print(sample.head(1))
+        print(f"Using cached {clustering} data from disk")
     except Exception:
-        print("Creating LDA")
-        data = pd.read_csv(filename+".csv")
+        print(f"Creating clusters with {clustering}")
+        data = pd.read_csv(filename + ".csv")
         data = preprocessor.preprocess_df(data)
-        lda_topic_model = LDATopicModel(num_topics=cluster_size)
-        topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+
+        # if clustering == "bertopic":
+        #     bertopic_model = BERTopicModel(nr_topics=int(cluster_size) if cluster_size else 10)
+        #     topics = bertopic_model.fit_transform(data['clean_title'].to_list())
+        # else:
+        #     lda_topic_model = LDATopicModel(num_topics=int(cluster_size) if cluster_size else 10)
+        #     topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+
+        if clustering == "bertopic":
+            bertopic_model = BERTopicModel(nr_topics=int(cluster_size) if cluster_size else 10)
+            topics = bertopic_model.fit_transform(data[text_col].to_list())
+        elif clustering == "top2vec":
+            print("Training Top2Vec model...")
+            top2vec_model = Top2VecModel(speed="learn", workers=8, cluster_size=cluster_size)
+            topics = top2vec_model.fit_transform(data[text_col].to_list())
+        else:
+            lda_topic_model = LDATopicModel(num_topics=int(cluster_size) if cluster_size else 10)
+            topics = lda_topic_model.fit_transform(data[text_col].to_list())
+
+
         data["label_cluster"] = topics
         n_cluster = data['label_cluster'].value_counts().count()
-        print(n_cluster)
-        data.to_csv(filename + "_lda.csv", index=False)
-        print("LDA created")
+        print(f"{clustering} created {n_cluster} clusters")
+        data.to_csv(cache_file, index=False)
 
 
     baseline = baseline
@@ -109,22 +170,36 @@ def main():
     else:
         raise ValueError("Choose one of thompson or random")
 
-    labeler = Labeling(label_model=labeling)
+    labeler = Labeling(label_model=labeling, dataset=dataset)
     labeler.set_model(hf_model_name=args.hf_model)
 
     for i in range(10):
         sample_data, chosen_bandit = sampler.get_sample_data(data, sample_size, filter_label, trainer)
+
+        # If no usable data was found (dead cluster), penalize and skip
+        if sample_data is None:
+            print(f"Iteration {i}: no data from bandit {chosen_bandit}, penalizing and skipping")
+            if sampling == "thompson":
+                sampler.update(chosen_bandit, -1)
+            continue
+
         ## Generate labels
         if labeling != "file":
-            df = labeler.generate_inference_data(sample_data, 'clean_title')
+            df = labeler.generate_inference_data(sample_data, text_col)
             print("df for inference created")
             tqdm.pandas(desc="Labeling samples")
             df["answer"] = df.progress_apply(lambda x: labeler.predict_animal_product(x), axis=1)
             df["answer"] = df["answer"].str.strip()
-            df["label"] = np.where(
-                df["answer"].str.lower().str.contains('relevant animal') & ~df["answer"].str.lower().str.contains('not a relevant animal'),
-                1, 0
-            )
+            if dataset == "reuters":
+                df["label"] = np.where(
+                    df["answer"].str.lower().str.contains('relevant') & ~df["answer"].str.lower().str.contains('not relevant'),
+                    1, 0
+                )
+            else:
+                df["label"] = np.where(
+                    df["answer"].str.lower().str.contains('relevant animal') & ~df["answer"].str.lower().str.contains('not a relevant animal'),
+                    1, 0
+                )
             if os.path.exists(f"{filename}_data_labeled.csv"):
                 train_data = pd.read_csv(f"{filename}_data_labeled.csv")
                 train_data = pd.concat([train_data, df])

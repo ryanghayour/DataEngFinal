@@ -10,10 +10,12 @@ class TextPreprocessor:
     def preprocess_df(self, df):
         df = df.dropna(subset=["title"])
         if "description" in df.columns:
-            df["title_and_desc"] = np.where(df["description"].isnull(), df["title"], df["title"]  + ". " + df["description"])
+            df["title_and_desc"] = np.where(df["description"].isnull(), df["title"], df["title"] + ". " + df["description"])
             df['clean_title'] = df['title_and_desc'].apply(lambda x: self.clean_text(x))
         else:
             df['clean_title'] = df['title'].apply(lambda x: self.clean_text(x))
+        if "text" in df.columns:
+            df['clean_text'] = df['text'].apply(lambda x: self.clean_text(x))
         return df
 
     def clean_text(self, text):
