@@ -90,7 +90,7 @@ class ThompsonSampler:
 
 
         #remove already used data
-        df = df[~df['id'].isin(self.selected_ids)]
+        df = df[~df['id'].astype(str).isin(self.selected_ids)]
 
         chosen_bandit = self.choose_bandit()
         print(f"Chosen bandit {chosen_bandit}")
@@ -124,8 +124,8 @@ class ThompsonSampler:
         else:
             data = select_data(bandit_df, chosen_bandit, sample_size)
 
-        # Add the IDs of sampled data to the selected_ids set
-        self.selected_ids.update(data['id'])
+        # Add the IDs of sampled data to the selected_ids set (always as strings)
+        self.selected_ids.update(data['id'].astype(str))
         with open('selected_ids.txt', 'w') as f:
             f.write('\n'.join(self.selected_ids))
 
