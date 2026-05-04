@@ -15,8 +15,7 @@ import os
 import torch
 from tqdm import tqdm
 from LDA import LDATopicModel
-# from bertopic_cluster import BERTopicModel
-# from top2vec import Top2Vec
+from bertopic_cluster import BERTopicModel
 from top2vec_cluster import Top2VecModel
 
 def str2bool(v):
@@ -69,6 +68,10 @@ def main():
                         default="lda",
                         choices=["lda", "bertopic", "top2vec"],
                         help="Clustering method: lda, bertopic, or top2vec")
+    parser.add_argument('-dataset', type=str, required=False,
+                        default="leather",
+                        choices=["leather", "reuters"],
+                        help="Dataset: leather (title-based) or reuters (full-text)")
 
 
     args = parser.parse_args()
@@ -91,8 +94,11 @@ def main():
     preprocessor = TextPreprocessor()
 
 
+    dataset = args.dataset
+    text_col = "clean_text" if dataset == "reuters" else "clean_title"
+
     validation = pd.read_csv(validation_path)
-    validation["training_text"] = validation["title"]
+    validation["training_text"] = validation["text"] if dataset == "reuters" else validation["title"]
 
     os.makedirs("models", exist_ok=True)
     os.makedirs("data", exist_ok=True)
@@ -133,14 +139,14 @@ def main():
 
         if clustering == "bertopic":
             bertopic_model = BERTopicModel(nr_topics=int(cluster_size) if cluster_size else 10)
-            topics = bertopic_model.fit_transform(data['clean_title'].to_list())
+            topics = bertopic_model.fit_transform(data[text_col].to_list())
         elif clustering == "top2vec":
             print("Training Top2Vec model...")
             top2vec_model = Top2VecModel(speed="learn", workers=8, cluster_size=cluster_size)
-            topics = top2vec_model.fit_transform(data['clean_title'].to_list())
+            topics = top2vec_model.fit_transform(data[text_col].to_list())
         else:
             lda_topic_model = LDATopicModel(num_topics=int(cluster_size) if cluster_size else 10)
-            topics = lda_topic_model.fit_transform(data['clean_title'].to_list())
+            topics = lda_topic_model.fit_transform(data[text_col].to_list())
 
 
         data["label_cluster"] = topics
@@ -164,22 +170,36 @@ def main():
     else:
         raise ValueError("Choose one of thompson or random")
 
-    labeler = Labeling(label_model=labeling)
+    labeler = Labeling(label_model=labeling, dataset=dataset)
     labeler.set_model(hf_model_name=args.hf_model)
 
     for i in range(10):
         sample_data, chosen_bandit = sampler.get_sample_data(data, sample_size, filter_label, trainer)
+
+        # If no usable data was found (dead cluster), penalize and skip
+        if sample_data is None:
+            print(f"Iteration {i}: no data from bandit {chosen_bandit}, penalizing and skipping")
+            if sampling == "thompson":
+                sampler.update(chosen_bandit, -1)
+            continue
+
         ## Generate labels
         if labeling != "file":
-            df = labeler.generate_inference_data(sample_data, 'clean_title')
+            df = labeler.generate_inference_data(sample_data, text_col)
             print("df for inference created")
             tqdm.pandas(desc="Labeling samples")
             df["answer"] = df.progress_apply(lambda x: labeler.predict_animal_product(x), axis=1)
             df["answer"] = df["answer"].str.strip()
-            df["label"] = np.where(
-                df["answer"].str.lower().str.contains('relevant animal') & ~df["answer"].str.lower().str.contains('not a relevant animal'),
-                1, 0
-            )
+            if dataset == "reuters":
+                df["label"] = np.where(
+                    df["answer"].str.lower().str.contains('relevant') & ~df["answer"].str.lower().str.contains('not relevant'),
+                    1, 0
+                )
+            else:
+                df["label"] = np.where(
+                    df["answer"].str.lower().str.contains('relevant animal') & ~df["answer"].str.lower().str.contains('not a relevant animal'),
+                    1, 0
+                )
             if os.path.exists(f"{filename}_data_labeled.csv"):
                 train_data = pd.read_csv(f"{filename}_data_labeled.csv")
                 train_data = pd.concat([train_data, df])
@@ -234,25 +254,6 @@ def main():
         except Exception:
             still_unbalenced = True
         print(f"Unbalanced? {still_unbalenced}")
-        try:
-            still_unbalenced = len(df[df["label"]==0]) / len(df[df["label"]==1])  >= 2
-        except Exception:
-            still_unbalenced = True
-        print(f"Unbalanced? {still_unbalenced}")
-
-        # ==========================================
-        # Fast-Fail Protection
-        # ==========================================
-        # if not balance and len(df[df["label"] == 1]) == 0:
-        #     max_fail_size = 200
-        #     if len(df) > max_fail_size:
-        #         print(f"🚨 Safety Truncation Triggered: 0 positive samples! Truncated {len(df)} pure negative samples to {max_fail_size} samples to prevent compute explosion.")
-        #         df = df.sample(n=max_fail_size, random_state=42)
-        if not balance:
-            max_size = 500
-            if len(df) > max_size:
-                print(f"🚨 Safety Truncation Triggered: original length {len(df)}, shortened to {max_size} samples!")
-                df = df.sample(n=max_size, random_state=42)
 
         # Move labeling model to CPU to free GPU memory for BERT training
         if labeling == "huggingface":
@@ -269,7 +270,7 @@ def main():
         if reward_difference > 0:
             print(f"Model improved with {reward_difference}")
             model_name = f"models/fine_tunned_{i}_bandit_{chosen_bandit}"
-            trainer.update_model(model_name, results[f"eval_{metric}"], save_model=False)
+            trainer.update_model(model_name, results[f"eval_{metric}"], save_model=True)
             # df.to_csv("llama_training_data.csv", index=False)
             if os.path.exists(f'{filename}_training_data.csv'):
                 train_data = pd.read_csv(f'{filename}_training_data.csv')
