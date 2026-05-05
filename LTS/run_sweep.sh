@@ -42,8 +42,11 @@ echo "==================================="
 DATASET=${DATASET:-leather}
 
 if [ "$DATASET" = "reuters" ]; then
-    echo "Running Reuters crude sweep..."
+    echo "Running Reuters crude sweep (filter_label=False)..."
     bash sweep_experiments_reuters.sh
+elif [ "$DATASET" = "reuters_filterlabel" ]; then
+    echo "Running Reuters crude sweep (filter_label=True)..."
+    bash sweep_experiments_reuters_filterlabel.sh
 else
     echo "Running leather sweep..."
     bash sweep_experiments_leather.sh
