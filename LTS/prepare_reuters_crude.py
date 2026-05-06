@@ -1,24 +1,7 @@
-"""
-prepare_reuters_crude.py
-
-Builds two datasets from Reuters-21578 (ModApte split) for LTS experiments:
-  - data_use_cases/data_reuters_crude.csv   : unlabeled pool for LTS active learning
-  - data_use_cases/reuters_crude_validation.csv : labeled validation set (ground truth)
-
-Target category: 'crude' (oil market news), treated as the positive class.
-All other articles are treated as negatives.
-
-Source splits used:
-  - ModApte_train -> unlabeled pool  (LTS generates labels via Qwen)
-  - ModApte_test  -> validation set  (Reuters ground-truth labels, no LLM needed)
-"""
-
 import ast
 import re
 import pandas as pd
 
-
-# ── Constants ────────────────────────────────────────────────────────────────
 
 TRAIN_PATH = "reuters/ModApte_train.csv"
 TEST_PATH  = "reuters/ModApte_test.csv"
@@ -29,7 +12,7 @@ TARGET_CATEGORY = "crude"
 MIN_WORDS       = 10     # drop articles shorter than this after cleaning
 
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# Helper functions for parsing and cleaning the raw data
 
 def parse_topics(raw):
     """Parse the topics column stored as a Python list string."""
@@ -40,13 +23,6 @@ def parse_topics(raw):
 
 
 def clean_text(text):
-    """
-    Normalise Reuters wire article text:
-      1. Replace newlines / tabs with spaces
-      2. Remove the Reuters boilerplate signature ('Reuter' at end)
-      3. Collapse multiple spaces into one
-      4. Strip leading/trailing whitespace
-    """
     if not isinstance(text, str):
         return ""
     text = text.replace("\n", " ").replace("\t", " ")
@@ -72,8 +48,10 @@ def word_count(text):
     return len(text.split())
 
 
-# ── Load ─────────────────────────────────────────────────────────────────────
+# Load the raw data
 
+# We use the Train split to train LTS and the Test split as a held-out validation
+# set with ground-truth labels.
 print("Loading Reuters ModApte splits...")
 train_raw = pd.read_csv(TRAIN_PATH)
 test_raw  = pd.read_csv(TEST_PATH)
@@ -81,20 +59,20 @@ print(f"  Train rows : {len(train_raw):,}")
 print(f"  Test  rows : {len(test_raw):,}")
 
 
-# ── Parse topics ─────────────────────────────────────────────────────────────
+# Get topics lists
 
 train_raw["topics_list"] = train_raw["topics"].apply(parse_topics)
 test_raw["topics_list"]  = test_raw["topics"].apply(parse_topics)
 
 
-# ── Clean text & title ───────────────────────────────────────────────────────
+# Clean text & title columns using the helper functions defined above. 
 
 for df in [train_raw, test_raw]:
     df["text"]  = df["text"].apply(clean_text)
     df["title"] = df["title"].apply(clean_title)
 
 
-# ── Drop nulls / empty ────────────────────────────────────────────────────────
+# Drop null/empty/too-short articles
 
 def drop_empty(df, name):
     before = len(df)
@@ -110,7 +88,7 @@ train_clean = drop_empty(train_raw, "train")
 test_clean  = drop_empty(test_raw,  "test")
 
 
-# ── Deduplicate on id ────────────────────────────────────────────────────────
+# Drop duplicates based on the new_id column
 
 train_clean["id"] = train_clean["new_id"].apply(clean_id)
 before = len(train_clean)
@@ -118,7 +96,7 @@ train_clean = train_clean.drop_duplicates(subset="id")
 print(f"\nDeduplication (train): {before - len(train_clean):,} duplicates removed")
 
 
-# ── Build unlabeled pool (train split, no labels) ────────────────────────────
+# Train split (unlabeled pool for LTS)
 
 pool = train_clean[["id", "title", "text"]].copy()
 pool = pool.reset_index(drop=True)
@@ -136,7 +114,7 @@ print(f"  Avg text length    : {pool['text'].apply(word_count).mean():.0f} words
 print(f"  Median text length : {pool['text'].apply(word_count).median():.0f} words")
 
 
-# ── Build validation set (test split, ground-truth labels) ───────────────────
+# Validation set (test split with labels) 
 
 val = test_clean[["title", "text", "topics_list"]].copy()
 val["label"] = val["topics_list"].apply(
@@ -155,7 +133,7 @@ print(f"  Negatives          : {n_neg:,} ({n_neg / len(val) * 100:.1f}%)")
 print(f"  Avg text length    : {val['text'].apply(word_count).mean():.0f} words")
 
 
-# ── Save ─────────────────────────────────────────────────────────────────────
+# Save preprocessed dataset 
 
 pool.to_csv(POOL_OUT, index=False)
 val.to_csv(VAL_OUT, index=False)
