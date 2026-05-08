@@ -35,10 +35,15 @@ exit  # return to login node when done
 
 ### Step 3 — Download HuggingFace models (first time only)
 
+Must be done on a compute node (loading a 3B model kills the login node):
+
 ```bash
+srun --pty --mem=32GB --cpus-per-task=4 --time=01:00:00 bash
+conda activate /gpfs/scratch/$USER/venvs/lts
 export HF_HOME=/gpfs/scratch/$USER/hf_cache
 python -c "from transformers import AutoTokenizer; AutoTokenizer.from_pretrained('bert-base-uncased')"
 python -c "from transformers import AutoModelForCausalLM; AutoModelForCausalLM.from_pretrained('Qwen/Qwen2.5-3B-Instruct')"
+exit
 ```
 
 ### Step 4 — Submit sweep jobs
