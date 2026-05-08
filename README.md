@@ -28,6 +28,7 @@ Then inside that session:
 ```bash
 conda create -p /gpfs/scratch/$USER/venvs/lts python=3.10 -y
 conda activate /gpfs/scratch/$USER/venvs/lts
+conda install -c conda-forge hdbscan -y   # pre-built binary; pip build fails on GCC 15
 pip install -r requirements.txt
 exit  # return to login node when done
 ```

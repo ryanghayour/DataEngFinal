@@ -18,7 +18,8 @@ fsspec==2025.10.0
 gensim==4.3.2
 h11==0.16.0
 bertopic==0.16.4
-hdbscan==0.8.33
+# hdbscan: install via conda to avoid GCC 15 compilation failure
+# conda install -c conda-forge hdbscan -y
 sentence-transformers==2.7.0
 top2vec==1.0.31
 hf-xet==1.2.0
