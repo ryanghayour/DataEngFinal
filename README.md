@@ -17,10 +17,19 @@ cd DataEngFinal
 
 ### Step 2 — Create the conda environment (first time only)
 
+Some packages (e.g. `hdbscan`) require compiling C extensions, which the login node will kill. Request an interactive compute node first:
+
+```bash
+srun --pty --mem=16GB --cpus-per-task=4 --time=01:00:00 bash
+```
+
+Then inside that session:
+
 ```bash
 conda create -p /gpfs/scratch/$USER/venvs/lts python=3.10 -y
 conda activate /gpfs/scratch/$USER/venvs/lts
 pip install -r requirements.txt
+exit  # return to login node when done
 ```
 
 ### Step 3 — Download HuggingFace models (first time only)
