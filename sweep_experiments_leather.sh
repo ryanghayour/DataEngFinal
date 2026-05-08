@@ -7,7 +7,7 @@
 
 set -u  # error on undefined vars (but not on command failures — we want to continue)
 
-PROJECT_DIR=/gpfs/scratch/np3106/DE_Project/DataEngFinal/LTS
+PROJECT_DIR=${PROJECT_DIR:-$(dirname "$(realpath "$0")")}
 cd "$PROJECT_DIR"
 
 RESULTS_DIR="$PROJECT_DIR/sweep_results_$(date +%Y%m%d_%H%M%S)"

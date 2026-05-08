@@ -25,9 +25,10 @@ sbatch --export=DATASET=reuters_filterlabel run_sweep.sh
 Results are saved to a timestamped directory (e.g. `sweep_results_leather_20250501_120000/`) with one `.log` and one `_model_results.json` per run.
 
 ### Prerequisites
-- Conda environment at `/gpfs/scratch/<netid>/venvs/lts` with packages from `requirements.txt`
-- `HF_HOME` pointing to a scratch cache with `bert-base-uncased` and `Qwen/Qwen2.5-3B-Instruct` pre-downloaded
-- Reuters data preprocessed via `python prepare_reuters_crude.py` (leather data is already in `data_use_cases/`)
+- Conda environment at `/gpfs/scratch/$USER/venvs/lts` with packages from `requirements.txt`
+- HuggingFace cache at `/gpfs/scratch/$USER/hf_cache` with `bert-base-uncased` and `Qwen/Qwen2.5-3B-Instruct` pre-downloaded
+- Run `sbatch` from the repo root (scripts use `$SLURM_SUBMIT_DIR` to find themselves)
+- Reuters data is already preprocessed in `data_use_cases/` — `prepare_reuters_crude.py` is only needed if regenerating from raw Reuters-21578 files
 
 ---
 
