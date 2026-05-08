@@ -41,13 +41,16 @@ echo "==================================="
 # Usage: sbatch --export=DATASET=reuters run_sweep.sh
 DATASET=${DATASET:-leather}
 
-if [ "$DATASET" = "reuters" ]; then
+if [ "$DATASET" = "leather_filterlabel" ]; then
+    echo "Running leather sweep (filter_label=True)..."
+    bash sweep_experiments_leather_filterlabel.sh
+elif [ "$DATASET" = "reuters" ]; then
     echo "Running Reuters crude sweep (filter_label=False)..."
     bash sweep_experiments_reuters.sh
 elif [ "$DATASET" = "reuters_filterlabel" ]; then
     echo "Running Reuters crude sweep (filter_label=True)..."
     bash sweep_experiments_reuters_filterlabel.sh
 else
-    echo "Running leather sweep..."
+    echo "Running leather sweep (filter_label=False)..."
     bash sweep_experiments_leather.sh
 fi

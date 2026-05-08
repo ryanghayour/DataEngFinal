@@ -1,132 +1,56 @@
-# 🐾 Wildlife Trafficking Detection: Using LLMs to Automate the Creation of Classifiers for Data Triage
+# LTS — Learn to Sample
 
-This repository contains the code used in the paper:
-
-> **"A Cost-Effective LLM-based Approach to Identify Wildlife Trafficking in Online Marketplaces"**
-> Proceedings of the ACM on Management of Data, Volume 3, Issue 3. Article No.: 119, Pages 1 - 23.  
-> https://dl.acm.org/doi/10.1145/3725256
-> https://arxiv.org/html/2504.21211v1
+Comparing LDA, BERTopic+KMeans, and Top2Vec as clustering backends for the LTS active learning framework on the Leather (wildlife trade) and Reuters crude oil datasets.
 
 ---
 
-## 📚 Table of Contents
+## Running the Sweep Experiments
 
-1. [Requirements](#-requirements)
-2. [Setup](#-setup)
-3. [Use Cases & Reproducibility](#-use-cases--reproduction)
+All sweeps are submitted via `run_sweep.sh` on NYU HPC (BigPurple). Each sweep runs 18 experiments (3 clustering methods × 2 balance settings × 3 runs) on a single GPU node.
+
+```bash
+# Leather — filter_label=False (main results)
+sbatch run_sweep.sh
+
+# Leather — filter_label=True
+sbatch --export=DATASET=leather_filterlabel run_sweep.sh
+
+# Reuters — filter_label=False
+sbatch --export=DATASET=reuters run_sweep.sh
+
+# Reuters — filter_label=True
+sbatch --export=DATASET=reuters_filterlabel run_sweep.sh
+```
+
+Results are saved to a timestamped directory (e.g. `sweep_results_leather_20250501_120000/`) with one `.log` and one `_model_results.json` per run.
+
+### Prerequisites
+- Conda environment at `/gpfs/scratch/<netid>/venvs/lts` with packages from `requirements.txt`
+- `HF_HOME` pointing to a scratch cache with `bert-base-uncased` and `Qwen/Qwen2.5-3B-Instruct` pre-downloaded
+- Reuters data preprocessed via `python prepare_reuters_crude.py` (leather data is already in `data_use_cases/`)
 
 ---
 
-## 📦 Requirements
+## File Reference
 
-Experiments were conducted using **Python 3.11.2**. All required dependencies are listed in `requirements.txt` and can be installed via pip.
-
-Before running the experiments, you need to set your OpenAI key on labeling.py (line 116)
-
----
-
-## ⚙️ Setup
-
-### 1. Create a Virtual Environment (Recommended)
-
-Use a virtual environment to avoid dependency conflicts:
-
-```bash
-python -m venv venv
-source venv/bin/activate  # For Unix/macOS
-venv\Scripts\activate     # For Windows
-```
-
-### 2. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-🧪 Use Cases & Reproducibility
-To reproduce experiments from the paper, run main_cluster.py with the appropriate flags:
-
-The data needed to run all experiments can be found on:
-https://drive.google.com/drive/folders/1UO4OYjBmvgKcFz71YeB1kefXqQhMvXGA?usp=sharing
-
-🔧 Required Parameters:
-
-- -sample_size: Number of samples per iteration.
-
-- -filename: Path to the dataset CSV file. Must contain a text column named 'title'.
-
-- -val_path: Path to the validation dataset.
-
-- -balance: Whether to balance the dataset via undersampling (bool).
-
-- -sampling: Sampling strategy (string: "thompson" or "random").
-
-- -filter_label: Whether to filter out negative samples. (bool)
-
-- -model_finetune: Model name for fine-tuning in the first iteration (string: e.g., "bert-base-uncased").
-
-- -labeling: Source of labels (string: gpt, llama, or file).
-
-- -model: Choose model type (string: text, multi-modal).
-
-- -metric: Evaluation metric used to compare models between iterations (string: "f1", "accuracy", "recall", "precision").
-
-- -baseline: Initial baseline metric score for first iteration.
-
-- -cluster_size: Number of clusters to use.
-
-
-
-👜 Use Case 1: Leather Products
-```bash
-python main_cluster.py \
-  -sample_size 200 \
-  -filename "data_use_cases/data_leather" \
-  -val_path "data_use_cases/leather_validation.csv" \
-  -balance False \
-  -sampling "thompson" \
-  -filter_label True \
-  -model_finetune "bert-base-uncased" \
-  -labeling "gpt" \
-  -model "text" \
-  -baseline 0.5 \
-  -metric "f1" \
-  -cluster_size 10
-```
-
-🦈 Use Case 2: Shark Products
-```bash
-python main_cluster.py \
-  -sample_size 200 \
-  -filename "data_use_cases/shark_trophy" \
-  -val_path "data_use_cases/validation_sharks.csv" \
-  -balance True \
-  -sampling "thompson" \
-  -filter_label True \
-  -model_finetune "bert-base-uncased" \
-  -labeling "gpt" \
-  -model "text" \
-  -baseline 0.5 \
-  -metric "f1" \
-  -cluster_size 5
-```
-
-Use Case 3: Animal Products
-```bash
-python main_cluster.py \
-  -sample_size 200 \
-  -filename "data_use_cases/animals" \
-  -val_path "data_use_cases/validation_animals.csv" \
-  -balance True \
-  -sampling "thompson" \
-  -filter_label True \
-  -model_finetune "bert-base-uncased" \
-  -labeling "gpt" \
-  -model "text" \
-  -baseline 0.5 \
-  -metric "f1" \
-  -cluster_size 10
-```
-
-📫 Contact
-For questions or feedback, please open an issue or reach out via the contact information provided in the paper.
-
+| File | Description |
+|------|-------------|
+| `run_sweep.sh` | SLURM job script — submit this with `sbatch`. Selects the right sweep script based on the `DATASET` env var. |
+| `sweep_experiments_leather.sh` | Runs 18 experiments on the Leather dataset (`filter_label=False`). |
+| `sweep_experiments_leather_filterlabel.sh` | Same as above with `filter_label=True`. |
+| `sweep_experiments_reuters.sh` | Runs 18 experiments on the Reuters crude oil dataset (`filter_label=False`). |
+| `sweep_experiments_reuters_filterlabel.sh` | Same as above with `filter_label=True`. |
+| `main_cluster.py` | Entry point for a single experiment run. |
+| `prepare_reuters_crude.py` | Preprocesses Reuters-21578 into the training pool and validation set. |
+| `thompson_sampling.py` | Thompson Sampling bandit that selects clusters and tracks rewards. |
+| `fine_tune.py` | BERT fine-tuning and inference logic. |
+| `labeling.py` | LLM labeling via HuggingFace (Qwen). |
+| `LDA.py` | LDA clustering backend. |
+| `bertopic_cluster.py` | BERTopic + KMeans clustering backend. |
+| `top2vec_cluster.py` | Top2Vec clustering backend. |
+| `text_cluster.py` | Shared clustering interface. |
+| `text_embedding.py` | Text embedding utilities. |
+| `preprocessing.py` | Text cleaning and tokenization. |
+| `model_sampling.py` | Sampling logic (Thompson, random). |
+| `analyze_clusters.py` | Standalone script to inspect cluster size distributions. |
+| `data_use_cases/` | Leather and Reuters training pools and validation sets. |
