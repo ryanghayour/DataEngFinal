@@ -4,9 +4,36 @@ Comparing LDA, BERTopic+KMeans, and Top2Vec as clustering backends for the LTS a
 
 ---
 
-## Running the Sweep Experiments
+## Running on HPC (BigPurple)
 
-All sweeps are submitted via `run_sweep.sh` on NYU HPC (BigPurple). Each sweep runs 18 experiments (3 clustering methods × 2 balance settings × 3 runs) on a single GPU node.
+### Step 1 — Clone the repo
+
+```bash
+ssh <netid>@bigpurple.nyumc.org
+cd /gpfs/scratch/$USER
+git clone https://github.com/ryanghayour/DataEngFinal.git
+cd DataEngFinal
+```
+
+### Step 2 — Create the conda environment (first time only)
+
+```bash
+conda create -p /gpfs/scratch/$USER/venvs/lts python=3.10 -y
+conda activate /gpfs/scratch/$USER/venvs/lts
+pip install -r requirements.txt
+```
+
+### Step 3 — Download HuggingFace models (first time only)
+
+```bash
+export HF_HOME=/gpfs/scratch/$USER/hf_cache
+python -c "from transformers import AutoTokenizer; AutoTokenizer.from_pretrained('bert-base-uncased')"
+python -c "from transformers import AutoModelForCausalLM; AutoModelForCausalLM.from_pretrained('Qwen/Qwen2.5-3B-Instruct')"
+```
+
+### Step 4 — Submit sweep jobs
+
+Run from the repo root. Each sweep runs 18 experiments (3 clustering methods × 2 balance settings × 3 runs) on a single GPU node (~24–48 h on `gpu4_medium`).
 
 ```bash
 # Leather — filter_label=False (main results)
@@ -22,13 +49,14 @@ sbatch --export=DATASET=reuters run_sweep.sh
 sbatch --export=DATASET=reuters_filterlabel run_sweep.sh
 ```
 
-Results are saved to a timestamped directory (e.g. `sweep_results_leather_20250501_120000/`) with one `.log` and one `_model_results.json` per run.
+### Step 5 — Monitor progress
 
-### Prerequisites
-- Conda environment at `/gpfs/scratch/$USER/venvs/lts` with packages from `requirements.txt`
-- HuggingFace cache at `/gpfs/scratch/$USER/hf_cache` with `bert-base-uncased` and `Qwen/Qwen2.5-3B-Instruct` pre-downloaded
-- Run `sbatch` from the repo root (scripts use `$SLURM_SUBMIT_DIR` to find themselves)
-- Reuters data is already preprocessed in `data_use_cases/` — `prepare_reuters_crude.py` is only needed if regenerating from raw Reuters-21578 files
+```bash
+squeue -u $USER
+tail -f sweep_<jobid>.out
+```
+
+Results are saved to a timestamped directory (e.g. `sweep_results_leather_20250501_120000/`) with one `.log` and one `_model_results.json` per run.
 
 ---
 
